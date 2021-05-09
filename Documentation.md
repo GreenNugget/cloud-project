@@ -2,7 +2,13 @@
 
 # Introducción
 ## Propósito
+
+Crear una aplicación de streaming capaz de ofrecer el servicio de lectura de libros digitales a todo usuario previamente registrado en el sitio, teniendo en cuenta las diferencias entre cuenta Free y Premium, y además pueda ser capaz de organizarlos en listas según sus propios criterios.
+
 ## Alcance
+
+El proyecto pretende alcanzar a todas las personas deseosas de ampliar su lectura con diversos libros, que en ocasiones es difícil de encontrar o comprar, en un mismo lugar y de una manera sencilla y eficaz.
+
 ## Documentos de Referencia
 
 # Arquitectura
@@ -42,9 +48,26 @@ Por otro lado, el servidor está diseñado usando una arquitectura por capas, la
   -  **Elasticsearch:** Esta capa vertical está encargada de indexar los datos (libros), para realizar consultas complejas sobre los datos.
 
 ## Diagrama de Secuencia (Operaciones CRUD)
+
+
 ## Diagrama de la Base de Datos
+
+
 ## Descripción de las Entidades
+
+- **Usuario:** Entidad que representa a los clientes que interactuarán con el sistema de alguna forma directa, a partir de estos surgen los Casos de Uso, esta entidad es una superclase para los tipos de usuario Administrador, Lector Free y Lector Premium.
+
+- **Rol:** Entidad que representa al tipo de Usuario que interactúa con el sistema, Administrador que tendrá los privilegios para agregar, actualizar o eliminar libros del sistema; Lector Free que será capaz de entrar al sistema pero estará limitado a leer 3 libros por 2 meses; por otra parte, el Lector Premium contará con todas las características como creación de Readlist y leer libros ilimitadamente.
+
+- **Libro:** Entidad que representa al libro vitual por el cual, un usuario, será capaz de leer según las restricciones mencionadas anteriormente, tendrá varias características como género, numero de páginas, titulo, fecha y la portada del mismo.
+
+- **Readlist:** Entidad que representa a una colección de libros de acuerdo a un tema o nombre según como lo desee el tipo Lector Premium para ordenar sus libros, aquí viene implícito el Readlist "Favoritos".
+
+- **Rating:** Entidad que representa la calificación del respectivo libro por parte de los usuarios, aquí predomina más la calificación otorgada.
+
 ## Diagrama Entidad-Relación
+
+
 
 # Documentación de la API
 ## Documentación de cada Endpoint por Entidad
