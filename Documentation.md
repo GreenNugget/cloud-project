@@ -29,7 +29,17 @@ Así pues, las capas principales de esta arquitectura se muestran y describen a 
 - **Capa de Datos o Persistencia.** En este nivel residen los datos como tal. Esta capa se encarga de recibir, almacenar y proporcionar información, interactuando siempre con la capa de negocios para proporcionar los datos necesarios de las acciones que provienen de la capa de presentación.
 
 ## Arquitectura del Proyecto
-[Insertar diagrama de la arquitectura completa del proyecto]
+![Diagrama de la arquitectura del proyecto](/assets/arquitectura.jpg)
+
+La aplicación es diseñada usando una arquitectura cliente-servidor, el cliente realiza las peticiones al servidor para solicitar información o modificar el estado, agregando nuevas entidades en la base de datos, actualizando y eliminando.
+
+Por otro lado, el servidor está diseñado usando una arquitectura por capas, las cuales son:
+  - **Capa Rest:** Esta capa se encarga de recibir las peticiones desde un cliente, verificar que los parametros de la petición es correcta y retornar la respuesta con los datos solicitados al cliente. Esta capa solo tiene comunicación con la capa inferior (*Capa de servicios*)
+  - **Capa Servicios:** Esta capa es la encargada de la lógica de negocios, en esta se establecen las reglas que debe cumplir la aplicación, así como solicitudes a servicios externos. Esta capa se comunica con la capa superior (*Capa Rest*) y la inferior (*Persistencia*)
+  -  **Capa de persistencia:** En esta capa se encarga de recibir, almacenar y proporcionar los datos proveniente de la capa de servicios. Esto a través de una conexión a un sistema manejador de base de datos (*DBMS*).
+  -  **Base de datos:** Permite almacenar una colección organizada de información, controlado por un DBMS.
+  -  **Modelos:** Capa vertical que se encarga de modelar las entidades de la aplicación.
+  -  **Elasticsearch:** Esta capa vertical está encargada de indexar los datos (libros), para realizar consultas complejas sobre los datos.
 
 ## Diagrama de Secuencia (Operaciones CRUD)
 ## Diagrama de la Base de Datos
