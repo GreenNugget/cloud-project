@@ -225,20 +225,25 @@ Eliminar una readlist previamente registrada en la cuenta de un usuario.
 Eliminar un libro de una readlist previamente registrado en la cuenta de un usuario.
 
 * **URL**
+
   /readlist/(:id)/books/(:id_book)
 
 * **Método:**
+
   `DELETE`
   
 *  **URL Parámetros**
 
    **Required:**
+
    Ninguno
 
    **Optional:**
+
    Ninguno
 
 * **Body Parámetros**
+
   Ninguno
 
 * **Respuesta Satisfactoria:**
@@ -246,8 +251,13 @@ Eliminar un libro de una readlist previamente registrado en la cuenta de un usua
     **Contenido:** `Success`
  
 * **Error Response:**
-  * **Código:** 400 Error Request <br />
-    **Contenido:** `{ error : "Libro no existente en la readlist indicada." }`
+  * **Código:** 
+  
+    400 Error Request <br />
+
+    **Contenido:**
+    
+    `{ error : "Libro no existente en la readlist indicada." }`
 
   * **Código:** 500 Error Server <br />
     **Contenido:** `{ error : "Falla en el servidor." }`
