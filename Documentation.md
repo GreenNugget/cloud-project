@@ -51,6 +51,14 @@ Por otro lado, el lado del servidor fue diseñado tomando en cuenta el patrón d
 
 ## Diagrama de Secuencia (Operaciones CRUD)
 
+A continuación, se adjuntan los diagramas de secuencia para los verbos GET y POST para la búsqueda y almacenamiento de libros dentro de la API, los cuales son considerados los más importantes para el proyecto.
+
+![Diagrama de Secuencia para el verbo GET libros](/assets/GetDiagram.jpg)
+En la imagen superior puede apreciarse cómo sucede la interacción entre las capas de la aplicación cuando un usuario de tipo *Cliente* (sin importar si este es Free o Premium) realiza una petición utilizando el verbo *GET* para indexar todos los libros almacenados en la base de datos.
+
+![Diagrama de Secuencia para el verbo POST libro](/assets/PostDiagram.jpg)
+En la imagen superior, puede observarse la interacción de las capas de la aplicación cuando un usuario de tipo *Administrador* realiza una petición utilizando el verbo *POST* para almacenar un libro nuevo dentro de la base de datos.
+
 
 ## Diagrama de la Base de Datos
 
@@ -77,6 +85,239 @@ En esta entidad viene implícito la entidad de tipo Readlist conocida como *"Fav
 
 # Documentación de la API
 ## Documentación de cada Endpoint por Entidad
+
+**Calificaciones**
+----
+### Ver Calificaciones de un Libro
+
+Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un libro.
+
+- **URL**
+
+    /btfy/ratings/?id_book=$
+
+- **Método**
+
+    `GET`
+
+- **Parámetros de la URL**
+
+    **Requeridos:**
+
+    `book_id=[integer]`
+
+    **Opcionales:**
+
+    Ninguno
+
+- **Parámetros del Body**
+
+    Ninguno
+
+- **Respuesta Exitosa**
+
+    -  **Código:** 200 <br/>
+    **Contenido:** `Success`
+
+- **Respuesta Errónea**
+
+    - **Código:** `404 NOT FOUND` <br/>
+    **Contenido:** ```{ error : ”Algún dato erróneo." }```
+
+    - **Código:** `500 SERVER ERROR` <br />
+    **Contenido:** ```{ error : "Falla en el servidor." }```
+
+- **Ejemplo del Request**
+
+```javascript
+    $.ajax({
+        url: "api/btfy/ratings/?book_id=$",
+        dataType: "json",
+        type : "GET",
+        data: {
+            "book_id": 3578
+        }
+        success : Contenido
+    });
+```
+
+### Añadir Calificaciones a un Libro
+
+Añade la calificación de un usuario para un libro en específico.
+
+- **URL**
+
+    /btfy/ratings
+
+- **Método**
+
+    `POST`
+
+- **Parámetros de la URL**
+
+    **Requeridos:**
+
+    Ninguno
+
+    **Opcionales:**
+
+    Ninguno
+
+- **Parámetros del Body**
+
+    ```json
+    body {
+        “user_id”: integer,
+        “score”: integer,
+        “comment”: string
+    }
+    ```
+
+- **Respuesta Exitosa**
+
+    -  **Código:** 200 <br/>
+    **Contenido:** `Success`
+
+- **Respuesta Errónea**
+
+    - **Código:** `404 NOT FOUND` <br/>
+    **Contenido:** ```{ error : ”Hacen falta datos." }```
+
+    - **Código:** `500 SERVER ERROR` <br />
+    **Contenido:** ```{ error : "Error en el servidor" }```
+
+- **Ejemplo del Request**
+
+```javascript
+    $.ajax({
+        url: "api/btfy/ratings",
+        dataType: "json",
+        data: {
+        "user_id": 12345,
+        "score": 5,
+        "comment": "Excelente libro, lo recomiendo mucho."
+        }
+        type : "POST",
+        success : Contenido
+    });
+```
+
+### Eliminar Calificación de un Libro
+
+Elimina la calificación de un libro en específico que ha sido asignada por un usuario.
+
+- **URL**
+
+    /btfy/ratings/users/{user_id}/books/{book_id}
+
+- **Método**
+
+    `DELETE`
+
+- **Parámetros de la URL**
+
+    **Requeridos:**
+
+    `user_id=[integer]` <br/>
+    `book_id=[integer]`
+
+    **Opcionales:**
+
+    Ninguno
+
+- **Parámetros del Body**
+
+    Ninguno
+
+- **Respuesta Exitosa**
+
+    -  **Código:** 200 <br/>
+    **Contenido:** `Success`
+
+- **Respuesta Errónea**
+
+    - **Código:** `404 NOT FOUND` <br/>
+    **Contenido:** ```{ error : ”El usuario o el libro al que se ha tratado de acceder es incorrecto o no existe." }```
+
+    - **Código:** `500 SERVER ERROR` <br />
+    **Contenido:** ```{ error : "Ha ocurrido un error en el servidor" }```
+
+- **Ejemplo del Request**
+
+```javascript
+    $.ajax({
+        url: "api/btfy/ratings/users/{user_id}/books/{book_id}",
+        dataType: "json",
+        data: {
+        "user_id": 12345,
+        "book_id": 6498
+        }
+        type : "DELETE",
+        success : Contenido
+    });
+```
+
+### Actualizar una Calificación para un Libro
+
+Actualiza la calificación (con su respectivo comentario, si así lo desea el usuario) de un libro en específico que ha sido asignada por un usuario particular.
+
+- **URL**
+
+    /btfy/ratings/users/{user_id}/books/{book_id}
+
+- **Método**
+
+    `UPDATE`
+
+- **Parámetros de la URL**
+
+    **Requeridos:**
+
+    `user_id=[integer]` <br/>
+    `book_id=[integer]`
+
+    **Opcionales:**
+
+    Ninguno
+
+- **Parámetros del Body**
+
+    ```json
+    body{
+        “score”: integer,
+        “comment”: string
+    }
+    ```
+
+- **Respuesta Exitosa**
+
+    -  **Código:** 200 <br/>
+    **Contenido:** `Success`
+
+- **Respuesta Errónea**
+
+    - **Código:** `404 NOT FOUND` <br/>
+    **Contenido:** ```{ error : ”El usuario o el libro al que se ha tratado de acceder es incorrecto o no existe." }```
+
+    - **Código:** `500 SERVER ERROR` <br />
+    **Contenido:** ```{ error : "Ha ocurrido un error en el servidor." }```
+
+- **Ejemplo del Request**
+
+```javascript
+    $.ajax({
+        url: "api/btfy/ratings/users/{user_id}/books/{book_id}",
+        dataType: "json",
+        data: {
+        "user_id": 12345,
+        "book_id": 6498,
+        "score": 5,
+        "comment": "Excelente libro, lo recomiendo mucho."
+        }
+        type : "UPDATE",
+        success : Contenido
+    });
+```
 
 # Criterios de Calidad
 
