@@ -3,11 +3,13 @@
 # Introducción
 ## Propósito
 
-Crear una aplicación de streaming capaz de ofrecer el servicio de lectura de libros digitales a todo usuario previamente registrado en el sitio, teniendo en cuenta las diferencias entre cuenta Free y Premium, y además pueda ser capaz de organizarlos en listas según sus propios criterios.
+El propósito de este documento es proveer un contexto sobre la aplicación de streaming y búsqueda de libros que será desarrollada y que será capaz de ofrecer el servicio de lectura de libros digitales a todo usuario previamente registrado en el sitio, teniendo en cuenta diferencias entre los dos tipos de cuenta con los que contará la API, los cuales son Free y Premium. Así pues, estas diferencias entre los usuarios radican en la lectura, almacenamiento y acceso a los libros.
+
+Toda la documentación con respecto a los tipos de usuarios y sus características será descrito más adelante en el apartado correspondiente a las entidades de la API.
 
 ## Alcance
 
-El proyecto pretende alcanzar a todas las personas deseosas de ampliar su lectura con diversos libros, que en ocasiones es difícil de encontrar o comprar, en un mismo lugar y de una manera sencilla y eficaz.
+La aplicación se extiende a todas las personas deseosas de ampliar su lectura con diversos géneros literarios que en ocasiones son difíciles de encontrar o comprar. Así pues, la aplicación funcionará como un repositorio de libros que estarán almacenados en un mismo lugar y que podrán hallarse de manera sencilla y eficaz.
 
 ## Documentos de Referencia
 
@@ -39,9 +41,9 @@ Así pues, las capas principales de esta arquitectura se muestran y describen a 
 
 La aplicación es diseñada usando una arquitectura cliente-servidor, el cliente realiza las peticiones al servidor para solicitar información o modificar el estado, agregando nuevas entidades en la base de datos, actualizando y eliminando.
 
-Por otro lado, el servidor está diseñado usando una arquitectura por capas, las cuales son:
-  - **Capa Rest:** Esta capa se encarga de recibir las peticiones desde un cliente, verificar que los parametros de la petición es correcta y retornar la respuesta con los datos solicitados al cliente. Esta capa solo tiene comunicación con la capa inferior (*Capa de servicios*)
-  - **Capa Servicios:** Esta capa es la encargada de la lógica de negocios, en esta se establecen las reglas que debe cumplir la aplicación, así como solicitudes a servicios externos. Esta capa se comunica con la capa superior (*Capa Rest*) y la inferior (*Persistencia*)
+Por otro lado, el lado del servidor fue diseñado tomando en cuenta el patrón de arquitectura por capas, de manera que para nuestra aplicación, las capas se dividen en los niveles que a continuación se enlistan:
+  - **Capa Rest:** Esta capa se encarga de recibir las peticiones desde un cliente, verificar que los parametros de la petición es correcta y retornar la respuesta con los datos solicitados al cliente. Esta capa solo tiene comunicación con la capa inferior (*Capa de servicios*).
+  - **Capa Servicios:** Esta capa es la encargada de la lógica de negocios, en esta se establecen las reglas que debe cumplir la aplicación, así como solicitudes a servicios externos. Esta capa se comunica con la capa superior (*Capa Rest*) y la inferior (*Persistencia*).
   -  **Capa de persistencia:** En esta capa se encarga de recibir, almacenar y proporcionar los datos proveniente de la capa de servicios. Esto a través de una conexión a un sistema manejador de base de datos (*DBMS*).
   -  **Base de datos:** Permite almacenar una colección organizada de información, controlado por un DBMS.
   -  **Modelos:** Capa vertical que se encarga de modelar las entidades de la aplicación.
@@ -55,15 +57,19 @@ Por otro lado, el servidor está diseñado usando una arquitectura por capas, la
 
 ## Descripción de las Entidades
 
-- **Usuario:** Entidad que representa a los clientes que interactuarán con el sistema de alguna forma directa, a partir de estos surgen los Casos de Uso, esta entidad es una superclase para los tipos de usuario Administrador, Lector Free y Lector Premium.
+- **Usuario:** Entidad que representa a los clientes que interactuarán con el sistema de alguna forma. A partir de estos sujetos surgen los casos de uso, además de que esta entidad es una superclase para los tipos de usuario *Administrador*, *Lector Free* y *Lector Premium*.
 
-- **Rol:** Entidad que representa al tipo de Usuario que interactúa con el sistema, Administrador que tendrá los privilegios para agregar, actualizar o eliminar libros del sistema; Lector Free que será capaz de entrar al sistema pero estará limitado a leer 3 libros por 2 meses; por otra parte, el Lector Premium contará con todas las características como creación de Readlist y leer libros ilimitadamente.
+- **Rol:** Entidad que representa el tipo de *Usuario* que interactúa con el sistema, los cuales pueden ser:
+    - Administrador: tendrá los privilegios para agregar, actualizar o eliminar libros del sistema.
+    - Lector Free: será capaz de entrar al sistema pero estará limitado a leer 3 libros por 2 meses.
+    - Lector Premium: contará con todas las características que ofrece la aplicación, como la creación de *Readlist* y el acceso a libros de manera ilimitada.
 
-- **Libro:** Entidad que representa al libro vitual por el cual, un usuario, será capaz de leer según las restricciones mencionadas anteriormente, tendrá varias características como género, numero de páginas, titulo, fecha y la portada del mismo.
+- **Libro:** Entidad que representa un libro virtual al cual tendrá acceso un usuario, el cual será capaz de leer según las restricciones mencionadas anteriormente; no obstante, el libro tendrá características como género, número de páginas, título, fecha de publicación y portada.
 
-- **Readlist:** Entidad que representa a una colección de libros de acuerdo a un tema o nombre según como lo desee el tipo Lector Premium para ordenar sus libros, aquí viene implícito el Readlist "Favoritos".
+- **Readlist:** Entidad que representa una colección de libros de acuerdo a un tema o nombre según lo desee el usuario de tipo *Premium*, el cual podrá ordenar sus libros de acuerdo a sus gustos, como se ha mencionado anteriormente.
+En esta entidad viene implícito la entidad de tipo Readlist conocida como *"Favoritos"*.
 
-- **Rating:** Entidad que representa la calificación del respectivo libro por parte de los usuarios, aquí predomina más la calificación otorgada.
+- **Rating:** Entidad que representa la calificación que tiene un libro y que ha sido otorgada por los usuarios.
 
 ## Diagrama Entidad-Relación
 
