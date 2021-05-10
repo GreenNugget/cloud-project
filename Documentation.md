@@ -267,7 +267,7 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
 - **Método**
 
-    `UPDATE`
+    `PUT`
 
 - **Parámetros de la URL**
 
