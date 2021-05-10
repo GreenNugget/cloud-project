@@ -13,6 +13,8 @@ La aplicación se extiende a todas las personas deseosas de ampliar su lectura c
 
 ## Documentos de Referencia
 
+
+
 # Arquitectura
 
 En esta sección se describirá a fondo la arquitectura de la API desarrollada, sus componentes y cómo estos se relacionan y comunican entre sí para el funcionamiento del software desarrollado.
@@ -83,10 +85,12 @@ En esta entidad viene implícito la entidad de tipo Readlist conocida como *"Fav
 
 ![Diagrama entidad-relación](/assets/Diagrama-ER.jpg)
 
+<br/>
+
 # Documentación de la API
 ## Documentación de cada Endpoint por Entidad
 
-## Autentificación
+**Autentificación**
 ---- 
 ### Acceder a una Cuenta de Usuario
 
@@ -100,17 +104,17 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
 
   `POST`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
-   **Required:**
+   **Requeridos:**
    
    Ninguno
 
-   **Optional:**
+   **Opcionales:**
 
    Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
   ```json 
   body {
    “username”: string,
@@ -142,7 +146,7 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
     });
   ```
     
-## Libros
+**Libros**
 ---
 ### Obtener todos los libros
 Despliga la lista de todos los libros.
@@ -156,25 +160,26 @@ Despliga la lista de todos los libros.
 
   `GET`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
-   **Required:**
+   **Requeridos:**
    
    Ninguno
 
-   **Optional:**
+   **Opcionales:**
 
    Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
 
    Ninguno
+
 * **Respuesta Exitosa:**
-  * **Código:** 200
+  * **Código:** 200 <br/>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 500 Error Server 
+  * **Código:** 500 Error Server <br/>
     **Contenido:** ```json { error : "Falla en el servidor." }```
 
 * **Ejemplo de Request:**
@@ -192,35 +197,35 @@ Permite encontrar los datos de un libro proporcinando el id.
 
 * **URL**
 
-  `libros/(:id_book)`
+  `libros/{book_id}`
 
 
 * **Método:**
 
   `GET`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
-   **Required:**
+   **Requeridos:**
    
-   `:id_book`: Id del libro que se desea encontrar. (Int)
+   `book_id`: Id del libro que se desea encontrar. (integer)
 
-   **Optional:**
+   **Opcionales:**
 
    Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
 
    Ninguno
 * **Respuesta Exitosa:**
-  * **Código:** 200
+  * **Código:** 200 <br/>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 404 Not Found
+  * **Código:** 404 Not Found <br/>
     **Contenido:** ```json { error : ”No se encontro el libro" }```
   <br />
-  * **Código:** 500 Error Server 
+  * **Código:** 500 Error Server <br/>
     **Contenido:** ```json { error : "Falla en el servidor." }```
 
 * **Ejemplo de Request:**
@@ -243,33 +248,34 @@ Permite buscar libros según los parametros enviados
 
   `GET`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
-   **Required:**
+   **Requeridos:**
    
    Ninguno 
 
-   **Optional:**
+   **Opcionales:**
 
-   `book`: Titúlo del libro. (string)
-   `autor`: Nombre del autor. (string)
-   `release_date`: fecha de lanzamiento. (date)
+   `book`: Titúlo del libro. (string) <br/>
+   `autor`: Nombre del autor. (string) <br/>
+   `release_date`: fecha de lanzamiento. (date) <br/>
    `language`: Idioma del libro. (string)
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
+
    Ninguno
 
 * **Respuesta Exitosa:**
-  * **Código:** 200
+  * **Código:** 200 <br/>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 404 Not Found
+  * **Código:** 404 Not Found <br/>
     **Contenido:** 
     ```json 
     { "error" : "No se encontraron coincidencias" }
     ```
-  * **Código:** 500 Error Server 
+  * **Código:** 500 Error Server  <br/>
     **Contenido:** 
     ```json 
     { "error" : "Falla en el servidor." }
@@ -285,7 +291,7 @@ Permite buscar libros según los parametros enviados
     });
   ```
   
-  ### Agregar un nuevo libro
+### Agregar un nuevo libro
 Permite añadir un nuevo libto al sistema.
 
 * **URL**
@@ -297,17 +303,17 @@ Permite añadir un nuevo libto al sistema.
 
   `POST`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
-   **Required:**
+   **Requeridos:**
    
    Ninguno
 
-   **Optional:**
+   **Opcionales:**
 
    Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
 
    ```json
   body{
@@ -353,7 +359,7 @@ Permite añadir un nuevo libto al sistema.
     });
   ```
   
-  ### Eliminar un libro
+### Eliminar un libro
 
 Elimina un libro especifico segun su ID.
 
@@ -363,7 +369,7 @@ Elimina un libro especifico segun su ID.
 * **Método:**
   `DELETE`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
    **Requeridos:**
    `:id_book`: Id del libro que se desea encontrar. (Int)
@@ -371,7 +377,7 @@ Elimina un libro especifico segun su ID.
    **Opcionales:**
    Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
    Ninguno
 
 * **Respuesta Exitosa:**
@@ -396,7 +402,7 @@ Elimina un libro especifico segun su ID.
   ```
   
 
-## Usuarios
+**Usuarios**
 ----
 ### Encontrar Usuario
 
@@ -410,7 +416,7 @@ Devuelve los datos de un usuario en específico.
 
   `GET`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
    **Requeridos:**
 
@@ -420,7 +426,7 @@ Devuelve los datos de un usuario en específico.
 
    Ninguno
 
-* **Body Parámetros**
+* **Parámetros del Cuerpo**
 
     Ninguno
 
@@ -446,7 +452,7 @@ Devuelve los datos de un usuario en específico.
     });
   ```
   
-  ### Agregar un nuevo usuario
+### Agregar un nuevo usuario
 Permite añadir un nuevo usuario al sistema.
 
 * **URL**
@@ -458,7 +464,7 @@ Permite añadir un nuevo usuario al sistema.
 
   `POST`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
    **Required:**
    
@@ -468,7 +474,7 @@ Permite añadir un nuevo usuario al sistema.
 
    Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
 
    ```json
   body{
@@ -482,11 +488,11 @@ Permite añadir un nuevo usuario al sistema.
   ```
   
 * **Respuesta Exitosa:**
-  * **Código:** 200
+  * **Código:** 200 <br>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 500 Error Server 
+  * **Código:** 500 Error Server <br>
     **Contenido:** ```json { error : "Falla en el servidor." }```
 
 
@@ -513,20 +519,22 @@ Permite añadir un nuevo usuario al sistema.
 Elimina un usuario especifico segun su ID.
 
 * **URL**
+
   /users/(:id_user)
 
 * **Método:**
+
   `DELETE`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
-   **Requeridos:**
-   `:id_user`: Id del usuario que se desea borrar. (Int)
+   **Requeridos:** <br>
+   `id_user`: Id del usuario que se desea borrar. (Int)
 
-   **Opcionales:**
+   **Opcionales:** <br>
    Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo** <br>
    Ninguno
 
 * **Respuesta Exitosa:**
@@ -550,7 +558,7 @@ Elimina un usuario especifico segun su ID.
     });
   ```
   
-  ### Actualizar los datos de un usuario
+### Actualizar los datos de un usuario
 
 Actualiza los datos de un usuario especifico segun su ID.
 
@@ -572,7 +580,7 @@ Actualiza los datos de un usuario especifico segun su ID.
 
     Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
 
     ```json
     body{
@@ -590,10 +598,10 @@ Actualiza los datos de un usuario especifico segun su ID.
 
 * **Respuesta Errónea**
 
-    * **Código:** 404 NOT FOUND 
-    **Contenido:** ```{ error : ”Usuario no existente." }```
+    * **Código:** 404 NOT FOUND <br>
+      **Contenido:** ```{ error : ”Usuario no existente." }```
 
-    * **Código:** 500 SERVER ERROR
+    * **Código:** 500 SERVER ERROR <br>
     **Contenido:** ```{ error : "Ha ocurrido un error en el servidor." }```
 
 * **Ejemplo del Request**
@@ -629,13 +637,13 @@ Actualiza el tipo de un usuario especifico segun su ID.
 
     **Requeridos:**
 
-    `:id_user`: Id del usuario que se desea actualizar. (Int)
+    `id_user`: Id del usuario que se desea actualizar. (Int)
 
     **Opcionales:**
 
     Ninguno
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
 
     ```json
     body{
@@ -645,15 +653,15 @@ Actualiza el tipo de un usuario especifico segun su ID.
 
 * **Respuesta Exitosa**
 
-    * **Código:** 200 <br/>
+    * **Código:** 200 <br>
     **Contenido:** `Success`
 
 * **Respuesta Errónea**
 
-    * **Código:** 404 NOT FOUND 
+    * **Código:** 404 NOT FOUND <br>
     **Contenido:** ```{ error : ”Usuario no existente." }```
 
-    * **Código:** 500 SERVER ERROR
+    * **Código:** 500 SERVER ERROR <br>
     **Contenido:** ```{ error : "Ha ocurrido un error en el servidor." }```
 
 * **Ejemplo del Request**
@@ -671,9 +679,8 @@ Actualiza el tipo de un usuario especifico segun su ID.
 ```
 
   
- ## ReadList
- ----
-
+**ReadList**
+----
 ### Obtener una Readlist
 
 Permite obtener todas las ReadList de un usuario o una Readlist en específico
@@ -702,17 +709,17 @@ Permite obtener todas las ReadList de un usuario o una Readlist en específico
    Ninguno
 
 * **Respuesta Exitosa:**
-  * **Código:** 200
+  * **Código:** 200 <br>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 404 Not Found
+  * **Código:** 404 Not Found <br>
     **Contenido:** 
     ```json 
     { "error" : "No se encontraron coincidencias" }
     ```
 
-  * **Código:** 500 Error Server 
+  * **Código:** 500 Error Server <br>
     **Contenido:**
     ```json 
      { "error" : "Falla en el servidor." }
@@ -759,14 +766,14 @@ Permite añadir una nueva readlist para un usuario.
   ```
   
 * **Respuesta Exitosa:**
-  * **Código:** 200
+  * **Código:** 200 <br>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 500 Error Server 
+  * **Código:** 500 Error Server <br>
     **Contenido:** ```json { error : "Falla en el servidor." }```
     
-    * **Código:** 404 Not Found
+    * **Código:** 404 Not Found <br>
     **Contenido:** 
     ```json 
     { "error" : "Usuario no existente" }
@@ -802,31 +809,32 @@ Permite agregar un libro a una lista del usuario
 
    **Required:**
    
-   `user_id`: id de usuario. (int)
+   `user_id`: id de usuario. (int) <br/>
    `book_id`: id del libro. (int)
 
    **Optional:**
- ```json
-  body{
-    "user_id": 1,
-    "name": 1,
-  }
-  ```
+    ```json
+      body{
+        "user_id": 1,
+        "name": 1,
+      }
+      ```
 
-* **Cuerpo Parámetros**
+* **Parámetros del Cuerpo**
+
    Ninguno
 
 * **Respuesta Exitosa:**
-  * **Código:** 200
+  * **Código:** 200 <br>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 404 Not Found
+  * **Código:** 404 Not Found <br>
     **Contenido:** 
     ```json 
     { "error" : "No se encontraron coincidencias" }
     ```
-  * **Código:** 500 Error Server
+  * **Código:** 500 Error Server <br>
     **Contenido:** 
     ```json 
     { "error" : "Falla en el servidor." }
@@ -847,31 +855,36 @@ Permite agregar un libro a una lista del usuario
 Elimina una Readlist previamente creada desde la cuenta de un usuario específico.
 
 * **URL**
+
   /readlist/(:id)
 
 * **Método:**
+
   `DELETE`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
    **Requeridos:**
+
    Ninguno
 
    **Opcionales:**
+
    Ninguno
 
-* **Parámetros del Body**
+* **Parámetros del Cuerpo**
+
   Ninguno
 
 * **Respuesta Exitosa:**
-  * **Código:** 200 <br />
+  * **Código:** 200 <br>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 400 Error Request <br />
+  * **Código:** 400 Error Request <br>
     **Contenido:** `{ error : "Readlist no existente." }`
 
-  * **Código:** 500 Error Server <br />
+  * **Código:** 500 Error Server <br>
     **Contenido:** `{ error : "Falla en el servidor." }`
 
 * **Ejemplo de Request:**
@@ -908,19 +921,19 @@ Elimina un libro que ha sido añadido a una Readlist única en la cuenta de un u
 
    Ninguno
 
-* **Parámetros del Body**
+* **Parámetros del Cuerpo**
 
   Ninguno
 
 * **Respuesta Exitosa:**
-  * **Código:** 200 <br />
+  * **Código:** 200 <br>
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 400 Error Request <br />
+  * **Código:** 400 Error Request <br>
     **Contenido:** `{ error : "Libro no existente en la readlist indicada." }`
 
-  * **Código:** 500 Error Server <br />
+  * **Código:** 500 Error Server <br>
     **Contenido:** `{ error : "Falla en el servidor." }`
 
 * **Ejemplo de Request:**
@@ -932,8 +945,6 @@ Elimina un libro que ha sido añadido a una Readlist única en la cuenta de un u
       success : Contenido
     });
   ```
-  
-
 
 **Calificaciones**
 ----
@@ -957,9 +968,9 @@ Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un l
 
     **Opcionales:**
 
-    Ninguno
+    `user_id=[integer]`
 
-- **Parámetros del Body**
+- **Parámetros del Cuerpo**
 
     Ninguno
 
@@ -1012,7 +1023,7 @@ Añade la calificación de un usuario para un libro en específico.
 
     Ninguno
 
-- **Parámetros del Body**
+- **Parámetros del Cuerpo**
 
     ```json
     body {
@@ -1074,7 +1085,7 @@ Elimina la calificación de un libro en específico que ha sido asignada por un 
 
     Ninguno
 
-- **Parámetros del Body**
+- **Parámetros del Cuerpo**
 
     Ninguno
 
@@ -1122,14 +1133,14 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
     **Requeridos:**
 
-    `user_id=[integer]` <br/>
+    `user_id=[integer]` <br>
     `book_id=[integer]`
 
     **Opcionales:**
 
     Ninguno
 
-- **Parámetros del Body**
+- **Parámetros del Cuerpo**
 
     ```json
     body{
@@ -1140,15 +1151,15 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
 - **Respuesta Exitosa**
 
-    -  **Código:** 200 <br/>
+    -  **Código:** 200 <br>
     **Contenido:** `Success`
 
 - **Respuesta Errónea**
 
-    - **Código:** `404 NOT FOUND` <br/>
+    - **Código:** `404 NOT FOUND` <br>
     **Contenido:** ```{ error : ”El usuario o el libro al que se ha tratado de acceder es incorrecto o no existe." }```
 
-    - **Código:** `500 SERVER ERROR` <br />
+    - **Código:** `500 SERVER ERROR` <br>
     **Contenido:** ```{ error : "Ha ocurrido un error en el servidor." }```
 
 - **Ejemplo del Request**
@@ -1168,9 +1179,14 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
     });
 ```
 
+<br>
+
 # Criterios de Calidad
 
-# Referencias
-- [Introducción al patrón de arquitectura por capas](https://arevalomaria.wordpress.com/2010/12/02/introduccion-al-patron-de-arquitectura-por-capas/)
-- [Platzi: Patrón arquitectónico de capas](https://platzi.com/tutoriales/1248-pro-arquitectura/5439-patron-arquitectonico-de-capas-layers/#:~:text=La%20arquitectura%20en%20capas%20es,de%20lo%20que%20le%20cooresponde)
-- [Los 5 principales patrones arquitectónicos de software](https://apiumhub.com/es/tech-blog-barcelona/principales-patrones-arquitectura-software/)
+Para esta aplicación, se consideraraon los siguientes criterios de calidad:
+
+- Accesibilidad.
+- Funcionabilidad.
+- Rendimiento.
+- Compatibilidad.
+- Seguridad.
