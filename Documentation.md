@@ -142,8 +142,107 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
     });
   ```
     
-    
-    
+## Libros
+---
+### Obtener un libro específico
+Permite encontrar los datos de un libro proporcinando el id.
+
+* **URL**
+
+  `libros/(:id_book)`
+
+
+* **Método:**
+
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   `:id_book`: Id del libro que se desea encontrar. 
+
+   **Optional:**
+
+   Ninguno
+
+* **Cuerpo Parámetros**
+
+   Ninguno
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** ```json { error : ”No se encontro el libro" }```
+  <br />
+  * **Código:** 500 Error Server 
+    **Contenido:** ```json { error : "Falla en el servidor." }```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros/1",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+### Buscar libros
+Permite buscar libros según los parametros enviados
+* **URL**
+
+  `libros/find/?book=”title”&& autor=”autor”`
+
+
+* **Método:**
+
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   Ninguno 
+
+   **Optional:**
+
+   `book`: Titúlo del libro.
+   `autor`: Nombre del autor.
+   `release_date`: fecha de lanzamiento.
+   `language`: Idioma del libro
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** 
+    ```json 
+    { "error" : "No se encontraron coincidencias" }
+    ```
+  <br />
+  * **Código:** 500 Error Server 
+    **Contenido:** 
+    ```json 
+    { "error" : "Falla en el servidor." }
+    ```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros/find/?book=”title”&& autor=”autor”&&release_date=”15-02-200”",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+
 ## Usuarios
 ----
 ### Encontrar Usuario
@@ -196,6 +295,116 @@ Devuelve los datos de un usuario en específico.
 
  ## ReadList
  ----
+
+### Obtener una Readlist
+
+Permite obtener todas las ReadList de un usuario o una Readlist en específico
+
+* **URL**
+
+  `readlists/user/(:id)`
+  `readlist/user/(:id)?list_name=""`
+
+
+* **Método:**
+
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   `(:id)`: ID del usuario 
+
+   **Optional:**
+
+   `list_name`: Nombre de una lista específica.
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** 
+    ```json 
+    { "error" : "No se encontraron coincidencias" }
+    ```
+
+  * **Código:** 500 Error Server 
+    **Contenido:**
+    ```json 
+     { "error" : "Falla en el servidor." }
+    ```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/readlists/user/(:id)?list_name=terror",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+### Agregar un libro a una lista
+Permite agregar un libro a una lista del usuario
+
+
+* **URL**
+
+  `readlists`
+
+* **Método:**
+
+  `POST`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   `user_id`: Entero
+   `book_id`: Entero
+
+   **Optional:**
+ ```json
+  body{
+    "user_id": 1,
+    "name": 1,
+  }
+  ```
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** 
+    ```json 
+    { "error" : "No se encontraron coincidencias" }
+    ```
+  * **Código:** 500 Error Server
+    **Contenido:** 
+    ```json 
+    { "error" : "Falla en el servidor." }
+    ```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/readlists/user/(:id)?list_name=terror",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+
 ### Eliminar una Readlist
 
 Elimina una Readlist previamente creada desde la cuenta de un usuario específico.
