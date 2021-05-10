@@ -78,6 +78,193 @@ En esta entidad viene implícito la entidad de tipo Readlist conocida como *"Fav
 # Documentación de la API
 ## Documentación de cada Endpoint por Entidad
 
+## Autentificación ##
+---- 
+**Acceder a una Cuenta de Usuario**
+Permite identificar a un usuario y acceder a una cuenta.
+* **URL**
+  /auth/login
+
+* **Método:**
+  `POST`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   Ninguno
+
+   **Optional:**
+   Ninguno
+
+* **Cuerpo Parámetros**
+  ```json 
+  Body {
+   “username”: string,
+   “password”: string,
+   }
+  ```
+* **Respuesta Satisfactoria:**
+  * **Código:** 200 <br />
+    **Contenido:** `Success`
+ 
+* **Error Response:**
+   * **Código:** 400 Bad Request <br />
+    **Contenido:** ```json { error : ”Nombre de usuario o contraseña incorrectos." }```
+
+  * **Código:** 500 Error Server <br />
+    **Contenido:** ```json { error : "Falla en el servidor." }```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/auth/login",
+      dataType: "json",
+      data: {
+        “username”: “usuario@email.com”,
+        “password”: “contraseña123”
+      }
+      type : "POST",
+      success : Contenido
+    });
+  ```
+    
+    
+    
+## Usuarios ##
+----
+**Encontrar Usuario**
+Devuelve los datos de un usuario en específico.
+
+* **URL**
+  /users/(:id)
+
+* **Método:**
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   Ninguno
+
+   **Optional:**
+   Ninguno
+
+* **Body Parámetros**
+  Ninguno
+
+* **Respuesta Satisfactoria:**
+
+  * **Código:** 200 <br />
+    **Contenido:** `{UsuarioN}`
+ 
+* **Error Response:**
+  * **Código:** 400 Error Request <br />
+    **Contenido:** `{ error : "Usuario pedido inexistente." }`
+
+  * **Código:** 500 Error Server <br />
+    **Contenido:** `{ error : "Falla en el servidor." }`
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/users/32456",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+  
+  
+  
+ ## ReadList ##
+----
+**Eliminar una Readlist Específica**
+Eliminar una readlist previamente registrada en la cuenta de un usuario.
+
+* **URL**
+  /readlist/(:id)
+
+* **Método:**
+  `DELETE`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   Ninguno
+
+   **Optional:**
+   Ninguno
+
+* **Body Parámetros**
+  Ninguno
+
+* **Respuesta Satisfactoria:**
+  * **Código:** 200 <br />
+    **Contenido:** `Success`
+ 
+* **Error Response:**
+  * **Código:** 400 Error Request <br />
+    **Contenido:** `{ error : "Readlist no existente." }`
+
+  * **Código:** 500 Error Server <br />
+    **Contenido:** `{ error : "Falla en el servidor." }`
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/readlists/1",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+  
+  
+  
+**Eliminar un Libro de una Readlist Específica**
+Eliminar un libro de una readlist previamente registrado en la cuenta de un usuario.
+
+* **URL**
+  /readlist/(:id)/books/(:id_book)
+
+* **Método:**
+  `DELETE`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   Ninguno
+
+   **Optional:**
+   Ninguno
+
+* **Body Parámetros**
+  Ninguno
+
+* **Respuesta Satisfactoria:**
+  * **Código:** 200 <br />
+    **Contenido:** `Success`
+ 
+* **Error Response:**
+  * **Código:** 400 Error Request <br />
+    **Contenido:** `{ error : "Libro no existente en la readlist indicada." }`
+
+  * **Código:** 500 Error Server <br />
+    **Contenido:** `{ error : "Falla en el servidor." }`
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/readlists/1/books/324",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+  
+
+
+
 # Criterios de Calidad
 
 # Referencias
