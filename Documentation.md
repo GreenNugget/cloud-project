@@ -13,6 +13,9 @@ La aplicación se extiende a todas las personas deseosas de ampliar su lectura c
 
 ## Documentos de Referencia
 
+- [What is REST?](https://restfulapi.net/)
+- [Document your REST API](https://gist.github.com/iros/3426278)
+- [ISO/IEC 9126](https://en.wikipedia.org/wiki/ISO/IEC_9126)
 
 
 # Arquitectura
@@ -1179,16 +1182,22 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
     });
 ```
 
-<br>
-
 # Criterios de Calidad
 
-Para esta aplicación, se consideraraon los siguientes criterios de calidad:
+## Funcionalidad
+Se deberan poder realizar todas las funcionalidades especificadas para el sistema, satisfacer las necesidades de los usuarios que lo utilizan y tener un alto grado de seguridad.
 
-- Usabilidad.
-- Funcionalidad.
-- Fiabilidad.
-- Seguridad.
-- Eficiencia.
-- Mantenibilidad.
-- Portabilidad.
+## Fiabilidad
+Cualquier error que surga debe poder ser identificado y manejado por el sistema sin falta, y debe ser posible recuperarse de este con facilidad.
+
+## Usabilidad
+El sistema debera tener una alta usabildiad, pudiendo ser utilizado con facilidad por los usuarios finales sin necesidad de capacitación.
+
+## Eficiencia
+Gracias a varias caracteristicas de un sistema RESTful como la falta de estado y la cacheabilidad el sistema debe ser altamente eficiente.
+
+## Mantenibilidad
+Debido a la interfaz uniforme del sistema este debe ser facil de probar, y debe ser posible hacer correciones y añadir nuevas caracteristicas sin complicaciones.
+
+## Portabilidad
+La capacidad de separar la interfaz de usuario del almacenamiento de los datos debido a la estructura cliente-servidor debe permitir al sistema tener mayor portabilidad a travez de diferentes plataformas.
