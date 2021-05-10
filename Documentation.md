@@ -94,7 +94,7 @@ Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un l
 
 - **URL**
 
-    /btfy/ratings/?id_book=$
+    /ratings/?id_book=$
 
 - **Método**
 
@@ -147,7 +147,7 @@ Añade la calificación de un usuario para un libro en específico.
 
 - **URL**
 
-    /btfy/ratings
+    /ratings
 
 - **Método**
 
@@ -208,7 +208,7 @@ Elimina la calificación de un libro en específico que ha sido asignada por un 
 
 - **URL**
 
-    /btfy/ratings/users/{user_id}/books/{book_id}
+    /ratings/users/{user_id}/books/{book_id}
 
 - **Método**
 
@@ -263,7 +263,7 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
 - **URL**
 
-    /btfy/ratings/users/{user_id}/books/{book_id}
+    /ratings/users/{user_id}/books/{book_id}
 
 - **Método**
 
