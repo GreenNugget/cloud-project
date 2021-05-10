@@ -1185,8 +1185,10 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
 Para esta aplicación, se consideraraon los siguientes criterios de calidad:
 
-- Accesibilidad.
-- Funcionabilidad.
-- Rendimiento.
-- Compatibilidad.
+- Usabilidad.
+- Funcionalidad.
+- Fiabilidad.
 - Seguridad.
+- Eficiencia.
+- Mantenibilidad.
+- Portabilidad.
