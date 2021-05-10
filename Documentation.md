@@ -1170,6 +1170,18 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
 # Criterios de Calidad
 
+## Funcionalidad
+
+## Fiabilidad
+
+## Usabilidad
+
+## Eficiencia
+
+## Mantenibilidad
+
+## Portabilidad
+
 # Referencias
 - [Introducción al patrón de arquitectura por capas](https://arevalomaria.wordpress.com/2010/12/02/introduccion-al-patron-de-arquitectura-por-capas/)
 - [Platzi: Patrón arquitectónico de capas](https://platzi.com/tutoriales/1248-pro-arquitectura/5439-patron-arquitectonico-de-capas-layers/#:~:text=La%20arquitectura%20en%20capas%20es,de%20lo%20que%20le%20cooresponde)
