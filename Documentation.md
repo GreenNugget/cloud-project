@@ -1192,3 +1192,6 @@ La capacidad de separar la interfaz de usuario del almacenamiento de los datos d
 - [Introducción al patrón de arquitectura por capas](https://arevalomaria.wordpress.com/2010/12/02/introduccion-al-patron-de-arquitectura-por-capas/)
 - [Platzi: Patrón arquitectónico de capas](https://platzi.com/tutoriales/1248-pro-arquitectura/5439-patron-arquitectonico-de-capas-layers/#:~:text=La%20arquitectura%20en%20capas%20es,de%20lo%20que%20le%20cooresponde)
 - [Los 5 principales patrones arquitectónicos de software](https://apiumhub.com/es/tech-blog-barcelona/principales-patrones-arquitectura-software/)
+- [What is REST?](https://restfulapi.net/)
+- [Document your REST API](https://gist.github.com/iros/3426278)
+- [ISO/IEC 9126](https://en.wikipedia.org/wiki/ISO/IEC_9126)
