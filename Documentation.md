@@ -28,7 +28,7 @@ La arquitectura por capas está enfocada en la distribución de roles y responsa
 Es importante mencionar que, si bien esta arqutiectura se caracteriza por dividir las responsabilidades en, comúnmente, 3 capas principales, estas no dependen de las otras, lo cual ayuda a encapsular los fallos en su respectiva división.
 Así pues, las capas principales de esta arquitectura se muestran y describen a continuación:
 
-![Diagrama de la Arquitectura por Capas](/assets/diagrama.png)
+![Diagrama de la Arquitectura por Capas](/assets/diagramaCapas.png)
 
 - **Capa de Presentación.** Esta capa va dirigida al usuario y es también conocida como interfaz gráfica puesto que es la encargada de presentarle la información de manera "amigable" a los usuarios.
 
@@ -142,8 +142,106 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
     });
   ```
     
-    
-    
+## Libros
+---
+### Obtener un libro específico
+Permite encontrar los datos de un libro proporcinando el id.
+
+* **URL**
+
+  `libros/(:id_book)`
+
+
+* **Método:**
+
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   `:id_book`: Id del libro que se desea encontrar. (Int)
+
+   **Optional:**
+
+   Ninguno
+
+* **Cuerpo Parámetros**
+
+   Ninguno
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** ```json { error : ”No se encontro el libro" }```
+  <br />
+  * **Código:** 500 Error Server 
+    **Contenido:** ```json { error : "Falla en el servidor." }```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros/1",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+### Buscar libros
+Permite buscar libros según los parametros enviados
+* **URL**
+
+  `libros/find/?book=”title”&& autor=”autor”`
+
+
+* **Método:**
+
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   Ninguno 
+
+   **Optional:**
+
+   `book`: Titúlo del libro. (string)
+   `autor`: Nombre del autor. (string)
+   `release_date`: fecha de lanzamiento. (date)
+   `language`: Idioma del libro. (string)
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** 
+    ```json 
+    { "error" : "No se encontraron coincidencias" }
+    ```
+  * **Código:** 500 Error Server 
+    **Contenido:** 
+    ```json 
+    { "error" : "Falla en el servidor." }
+    ```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros/find/?book=”title”&& autor=”autor”&&release_date=”15-02-200”",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+
 ## Usuarios
 ----
 ### Encontrar Usuario
@@ -196,6 +294,116 @@ Devuelve los datos de un usuario en específico.
 
  ## ReadList
  ----
+
+### Obtener una Readlist
+
+Permite obtener todas las ReadList de un usuario o una Readlist en específico
+
+* **URL**
+
+  `readlists/user/(:id)`
+  `readlist/user/(:id)?list_name=""`
+
+
+* **Método:**
+
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   `(:id)`: ID del usuario (int)
+
+   **Optional:**
+
+   `list_name`: Nombre de una lista específica. (string)
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** 
+    ```json 
+    { "error" : "No se encontraron coincidencias" }
+    ```
+
+  * **Código:** 500 Error Server 
+    **Contenido:**
+    ```json 
+     { "error" : "Falla en el servidor." }
+    ```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/readlists/user/(:id)?list_name=terror",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+### Agregar un libro a una lista
+Permite agregar un libro a una lista del usuario
+
+
+* **URL**
+
+  `readlists`
+
+* **Método:**
+
+  `POST`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   `user_id`: id de usuario. (int)
+   `book_id`: id del libro. (int)
+
+   **Optional:**
+ ```json
+  body{
+    "user_id": 1,
+    "name": 1,
+  }
+  ```
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 404 Not Found
+    **Contenido:** 
+    ```json 
+    { "error" : "No se encontraron coincidencias" }
+    ```
+  * **Código:** 500 Error Server
+    **Contenido:** 
+    ```json 
+    { "error" : "Falla en el servidor." }
+    ```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/readlists/user/(:id)?list_name=terror",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+
 ### Eliminar una Readlist
 
 Elimina una Readlist previamente creada desde la cuenta de un usuario específico.
