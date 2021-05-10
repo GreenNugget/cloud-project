@@ -78,36 +78,42 @@ En esta entidad viene implícito la entidad de tipo Readlist conocida como *"Fav
 # Documentación de la API
 ## Documentación de cada Endpoint por Entidad
 
-## Autentificación ##
+## Autentificación
 ---- 
-**Acceder a una Cuenta de Usuario**
-Permite identificar a un usuario y acceder a una cuenta.
+### Acceder a una Cuenta de Usuario
+
+Permite identificar a un usuario y acceder a su respectiva cuenta.
+
 * **URL**
+
   /auth/login
 
 * **Método:**
+
   `POST`
   
 *  **URL Parámetros**
 
    **Required:**
+   
    Ninguno
 
    **Optional:**
+
    Ninguno
 
 * **Cuerpo Parámetros**
   ```json 
-  Body {
+  body {
    “username”: string,
    “password”: string,
    }
   ```
-* **Respuesta Satisfactoria:**
+* **Respuesta Exitosa:**
   * **Código:** 200 <br />
     **Contenido:** `Success`
  
-* **Error Response:**
+* **Respuesta Errónea:**
    * **Código:** 400 Bad Request <br />
     **Contenido:** ```json { error : ”Nombre de usuario o contraseña incorrectos." }```
 
@@ -130,34 +136,40 @@ Permite identificar a un usuario y acceder a una cuenta.
     
     
     
-## Usuarios ##
+## Usuarios
 ----
-**Encontrar Usuario**
+### Encontrar Usuario
+
 Devuelve los datos de un usuario en específico.
 
 * **URL**
-  /users/(:id)
+
+  /users/{user_id}
 
 * **Método:**
+
   `GET`
   
 *  **URL Parámetros**
 
-   **Required:**
+   **Requeridos:**
+
    Ninguno
 
-   **Optional:**
+   **Opcionales:**
+
    Ninguno
 
 * **Body Parámetros**
-  Ninguno
 
-* **Respuesta Satisfactoria:**
+    Ninguno
+
+* **Respuesta Exitosa:**
 
   * **Código:** 200 <br />
     **Contenido:** `{UsuarioN}`
  
-* **Error Response:**
+* **Respuesta Errónea:**
   * **Código:** 400 Error Request <br />
     **Contenido:** `{ error : "Usuario pedido inexistente." }`
 
@@ -173,13 +185,12 @@ Devuelve los datos de un usuario en específico.
       success : Contenido
     });
   ```
-  
-  
-  
- ## ReadList ##
-----
-**Eliminar una Readlist Específica**
-Eliminar una readlist previamente registrada en la cuenta de un usuario.
+
+ ## ReadList
+ ----
+### Eliminar una Readlist
+
+Elimina una Readlist previamente creada desde la cuenta de un usuario específico.
 
 * **URL**
   /readlist/(:id)
@@ -189,20 +200,20 @@ Eliminar una readlist previamente registrada en la cuenta de un usuario.
   
 *  **URL Parámetros**
 
-   **Required:**
+   **Requeridos:**
    Ninguno
 
-   **Optional:**
+   **Opcionales:**
    Ninguno
 
-* **Body Parámetros**
+* **Parámetros del Body**
   Ninguno
 
-* **Respuesta Satisfactoria:**
+* **Respuesta Exitosa:**
   * **Código:** 200 <br />
     **Contenido:** `Success`
  
-* **Error Response:**
+* **Respuesta Errónea:**
   * **Código:** 400 Error Request <br />
     **Contenido:** `{ error : "Readlist no existente." }`
 
@@ -221,8 +232,9 @@ Eliminar una readlist previamente registrada en la cuenta de un usuario.
   
   
   
-**Eliminar un Libro de una Readlist Específica**
-Eliminar un libro de una readlist previamente registrado en la cuenta de un usuario.
+### Eliminar un Libro de una Readlist
+
+Elimina un libro que ha sido añadido a una Readlist única en la cuenta de un usuario en específico.
 
 * **URL**
 
@@ -232,32 +244,27 @@ Eliminar un libro de una readlist previamente registrado en la cuenta de un usua
 
   `DELETE`
   
-*  **URL Parámetros**
+*  **Parámetros de la URL**
 
-   **Required:**
-
-   Ninguno
-
-   **Optional:**
+   **Requeridos:**
 
    Ninguno
 
-* **Body Parámetros**
+   **Opcionales:**
+
+   Ninguno
+
+* **Parámetros del Body**
 
   Ninguno
 
-* **Respuesta Satisfactoria:**
+* **Respuesta Exitosa:**
   * **Código:** 200 <br />
     **Contenido:** `Success`
  
-* **Error Response:**
-  * **Código:** 
-  
-    400 Error Request <br />
-
-    **Contenido:**
-    
-    `{ error : "Libro no existente en la readlist indicada." }`
+* **Respuesta Errónea:**
+  * **Código:** 400 Error Request <br />
+    **Contenido:** `{ error : "Libro no existente en la readlist indicada." }`
 
   * **Código:** 500 Error Server <br />
     **Contenido:** `{ error : "Falla en el servidor." }`
