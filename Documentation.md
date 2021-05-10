@@ -144,6 +144,49 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
     
 ## Libros
 ---
+### Obtener todos los libros
+Despliga la lista de todos los libros.
+
+* **URL**
+
+  `/libros`
+
+
+* **Método:**
+
+  `GET`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   Ninguno
+
+   **Optional:**
+
+   Ninguno
+
+* **Cuerpo Parámetros**
+
+   Ninguno
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 500 Error Server 
+    **Contenido:** ```json { error : "Falla en el servidor." }```
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros",
+      dataType: "json",
+      type : "GET",
+      success : Contenido
+    });
+  ```
+  
 ### Obtener un libro específico
 Permite encontrar los datos de un libro proporcinando el id.
 
@@ -241,6 +284,117 @@ Permite buscar libros según los parametros enviados
       success : Contenido
     });
   ```
+  
+  ### Agregar un nuevo libro
+Permite añadir un nuevo libto al sistema.
+
+* **URL**
+
+  `/libros`
+
+
+* **Método:**
+
+  `POST`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   Ninguno
+
+   **Optional:**
+
+   Ninguno
+
+* **Cuerpo Parámetros**
+
+   ```json
+  body{
+    “title”: string,
+    “author”: string,
+    “content”: string,
+    “publisher”: string,
+    “publisher_date”: date,
+    “pages”: integer,
+    “language”: string,
+    “url_download”: string,
+    “cover”: string
+  }
+  ```
+  
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 500 Error Server 
+    **Contenido:** ```json { error : "Falla en el servidor." }```
+
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros/1",
+      dataType: "json",
+      data:{
+        “title”: “El Hobbit”,
+        “author”: “J.R.R. Tolkien”,
+        “content”: “La historia del hobbit donde se casó.”,
+        “publisher”: “Allen & Unwin”,
+        “publisher_date”: “1937”,
+        “pages”: “400”,
+        “language”: “spanish”,
+        “url_download”: “https://www.librodownload.com”,
+        “cover”: “cover.jpg”
+      }
+      type : "POST",
+      success : Contenido
+    });
+  ```
+  
+  ### Eliminar un libro
+
+Elimina un libro especifico segun su ID.
+
+* **URL**
+  /libros/(:id_book)
+
+* **Método:**
+  `DELETE`
+  
+*  **URL Parámetros**
+
+   **Requeridos:**
+   `:id_book`: Id del libro que se desea encontrar. (Int)
+
+   **Opcionales:**
+   Ninguno
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200 <br />
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+    * **Código:** 404 NOT FOUND <br/>
+    **Contenido:** ```{ error : ”Libro no existente." }```
+
+  * **Código:** 500 Error Server <br />
+    **Contenido:** `{ error : "Falla en el servidor." }`
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros/123",
+      dataType: "json",
+      type : "DELETE",
+      success : Contenido
+    });
+  ```
+  
 
 ## Usuarios
 ----
@@ -285,13 +439,238 @@ Devuelve los datos de un usuario en específico.
 * **Ejemplo de Request:**
  ```javascript
     $.ajax({
-      url: "api/v1/users/32456",
+      url: "api/v1/users",
       dataType: "json",
       type : "GET",
       success : Contenido
     });
   ```
+  
+  ### Agregar un nuevo usuario
+Permite añadir un nuevo usuario al sistema.
 
+* **URL**
+
+  `/users`
+
+
+* **Método:**
+
+  `POST`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   Ninguno
+
+   **Optional:**
+
+   Ninguno
+
+* **Cuerpo Parámetros**
+
+   ```json
+  body{
+    "id": int,
+    "email": string,
+    "password": string,
+    "fullname" : string,
+    "lastname" : string,
+    "Role_id": int
+  }
+  ```
+  
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 500 Error Server 
+    **Contenido:** ```json { error : "Falla en el servidor." }```
+
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/libros/1",
+      dataType: "json",
+      data:{
+        "id": "123",
+        "email": "ejemplo@test.com",
+        "password": "456",
+        "fullname" : "aaaa",
+        "lastname" : "bbbb",
+        "Role_id": "2"
+      }
+      type : "POST",
+      success : Contenido
+    });
+  ```
+
+### Eliminar un usuario
+
+Elimina un usuario especifico segun su ID.
+
+* **URL**
+  /users/(:id_user)
+
+* **Método:**
+  `DELETE`
+  
+*  **URL Parámetros**
+
+   **Requeridos:**
+   `:id_user`: Id del usuario que se desea borrar. (Int)
+
+   **Opcionales:**
+   Ninguno
+
+* **Cuerpo Parámetros**
+   Ninguno
+
+* **Respuesta Exitosa:**
+  * **Código:** 200 <br />
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+    * **Código:** 404 NOT FOUND <br/>
+    **Contenido:** ```{ error : ”Usuario no existente." }```
+
+  * **Código:** 500 Error Server <br />
+    **Contenido:** `{ error : "Falla en el servidor." }`
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/users/123",
+      dataType: "json",
+      type : "DELETE",
+      success : Contenido
+    });
+  ```
+  
+  ### Actualizar los datos de un usuario
+
+Actualiza los datos de un usuario especifico segun su ID.
+
+* **URL**
+
+    /users/(:id_user)
+
+* **Método**
+
+    `PATCH`
+
+* **Parámetros de la URL**
+
+    **Requeridos:**
+
+    `:id_user`: Id del usuario que se desea actualizar. (Int)
+
+    **Opcionales:**
+
+    Ninguno
+
+* **Cuerpo Parámetros**
+
+    ```json
+    body{
+      "email": string,
+      "password": string,
+      "fullname" : string,
+      "lastname" : string,
+    }
+   ```
+
+* **Respuesta Exitosa**
+
+    * **Código:** 200 <br/>
+    **Contenido:** `Success`
+
+* **Respuesta Errónea**
+
+    * **Código:** 404 NOT FOUND 
+    **Contenido:** ```{ error : ”Usuario no existente." }```
+
+    * **Código:** 500 SERVER ERROR
+    **Contenido:** ```{ error : "Ha ocurrido un error en el servidor." }```
+
+* **Ejemplo del Request**
+
+```javascript
+    $.ajax({
+        url: "api/v1/users/{user_id}",
+        dataType: "json",
+        data: {
+         "email": "ejemplo@test.com",
+         "password": "456",
+         "fullname" : "aaaa",
+         "lastname" : "bbbb",
+        }
+        type : "PATCH",
+        success : Contenido
+    });
+```
+
+### Actualizar el tipo de usuario
+
+Actualiza el tipo de un usuario especifico segun su ID.
+
+* **URL**
+
+    /users/(:id_user)/type
+
+* **Método**
+
+    `PATCH`
+
+* **Parámetros de la URL**
+
+    **Requeridos:**
+
+    `:id_user`: Id del usuario que se desea actualizar. (Int)
+
+    **Opcionales:**
+
+    Ninguno
+
+* **Cuerpo Parámetros**
+
+    ```json
+    body{
+      "Role_id": int
+    }
+   ```
+
+* **Respuesta Exitosa**
+
+    * **Código:** 200 <br/>
+    **Contenido:** `Success`
+
+* **Respuesta Errónea**
+
+    * **Código:** 404 NOT FOUND 
+    **Contenido:** ```{ error : ”Usuario no existente." }```
+
+    * **Código:** 500 SERVER ERROR
+    **Contenido:** ```{ error : "Ha ocurrido un error en el servidor." }```
+
+* **Ejemplo del Request**
+
+```javascript
+    $.ajax({
+        url: "api/v1/users/{user_id}",
+        dataType: "json",
+        data: {
+         "Role_id": "2"
+        }
+        type : "PATCH",
+        success : Contenido
+    });
+```
+
+  
  ## ReadList
  ----
 
@@ -348,6 +727,65 @@ Permite obtener todas las ReadList de un usuario o una Readlist en específico
       success : Contenido
     });
   ```
+  
+  ### Agregar una nueva ReadList
+Permite añadir una nueva readlist para un usuario.
+
+* **URL**
+
+  `/readlists/users/(:id_user)`
+
+
+* **Método:**
+
+  `POST`
+  
+*  **URL Parámetros**
+
+   **Required:**
+   
+   `:id_user`: Id del usuario que esta creando la ReadList. (Int)
+
+   **Optional:**
+
+   Ninguno
+
+* **Cuerpo Parámetros**
+
+   ```json
+  body{
+    “name”: string,
+  }
+  ```
+  
+* **Respuesta Exitosa:**
+  * **Código:** 200
+    **Contenido:** `Success`
+ 
+* **Respuesta Errónea:**
+  * **Código:** 500 Error Server 
+    **Contenido:** ```json { error : "Falla en el servidor." }```
+    
+    * **Código:** 404 Not Found
+    **Contenido:** 
+    ```json 
+    { "error" : "Usuario no existente" }
+    ```
+
+
+* **Ejemplo de Request:**
+ ```javascript
+    $.ajax({
+      url: "api/v1/readlists/users/1",
+      dataType: "json",
+      data:{
+        “name”: "asd",
+      }
+      type : "POST",
+      success : Contenido
+    });
+  ```
+  
 ### Agregar un libro a una lista
 Permite agregar un libro a una lista del usuario
 
