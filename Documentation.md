@@ -61,7 +61,7 @@ En la imagen superior, puede observarse la interacción de las capas de la aplic
 
 
 ## Diagrama de la Base de Datos
-
+![Diagrama de la base de datos](/assets/Diagrama-DB.png)
 
 ## Descripción de las Entidades
 
@@ -81,7 +81,7 @@ En esta entidad viene implícito la entidad de tipo Readlist conocida como *"Fav
 
 ## Diagrama Entidad-Relación
 
-
+![Diagrama entidad-relación](/assets/Diagrama-ER.jpg)
 
 # Documentación de la API
 ## Documentación de cada Endpoint por Entidad
