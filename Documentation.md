@@ -28,7 +28,7 @@ La arquitectura por capas está enfocada en la distribución de roles y responsa
 Es importante mencionar que, si bien esta arqutiectura se caracteriza por dividir las responsabilidades en, comúnmente, 3 capas principales, estas no dependen de las otras, lo cual ayuda a encapsular los fallos en su respectiva división.
 Así pues, las capas principales de esta arquitectura se muestran y describen a continuación:
 
-![Diagrama de la Arquitectura por Capas](/assets/diagrama.png)
+![Diagrama de la Arquitectura por Capas](/assets/diagramaCapas.png)
 
 - **Capa de Presentación.** Esta capa va dirigida al usuario y es también conocida como interfaz gráfica puesto que es la encargada de presentarle la información de manera "amigable" a los usuarios.
 
