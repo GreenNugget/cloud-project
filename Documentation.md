@@ -160,7 +160,7 @@ Permite encontrar los datos de un libro proporcinando el id.
 
    **Required:**
    
-   `:id_book`: Id del libro que se desea encontrar. 
+   `:id_book`: Id del libro que se desea encontrar. (Int)
 
    **Optional:**
 
@@ -208,10 +208,10 @@ Permite buscar libros según los parametros enviados
 
    **Optional:**
 
-   `book`: Titúlo del libro.
-   `autor`: Nombre del autor.
-   `release_date`: fecha de lanzamiento.
-   `language`: Idioma del libro
+   `book`: Titúlo del libro. (string)
+   `autor`: Nombre del autor. (string)
+   `release_date`: fecha de lanzamiento. (date)
+   `language`: Idioma del libro. (string)
 
 * **Cuerpo Parámetros**
    Ninguno
@@ -226,7 +226,6 @@ Permite buscar libros según los parametros enviados
     ```json 
     { "error" : "No se encontraron coincidencias" }
     ```
-  <br />
   * **Código:** 500 Error Server 
     **Contenido:** 
     ```json 
@@ -314,11 +313,11 @@ Permite obtener todas las ReadList de un usuario o una Readlist en específico
 
    **Required:**
    
-   `(:id)`: ID del usuario 
+   `(:id)`: ID del usuario (int)
 
    **Optional:**
 
-   `list_name`: Nombre de una lista específica.
+   `list_name`: Nombre de una lista específica. (string)
 
 * **Cuerpo Parámetros**
    Ninguno
@@ -365,8 +364,8 @@ Permite agregar un libro a una lista del usuario
 
    **Required:**
    
-   `user_id`: Entero
-   `book_id`: Entero
+   `user_id`: id de usuario. (int)
+   `book_id`: id del libro. (int)
 
    **Optional:**
  ```json
