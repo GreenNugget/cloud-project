@@ -936,7 +936,7 @@ Elimina un libro que ha sido añadido a una Readlist única en la cuenta de un u
  
 * **Respuesta Errónea:**
   * **Código:** 404 Not Found <br>
-    **Contenido:** `{ error : "Libro no existente en la readlist indicada." }`
+    **Contenido:** `{ error : "Libro no existente en la readlist indicada." }` <br>
     **Contenido:** `{ error : "Readlist solicitada no existente." }`
 
   * **Código:** 500 Error Server <br>
@@ -989,7 +989,7 @@ Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un l
 - **Respuesta Errónea**
 
     - **Código:** `404 NOT FOUND` <br/>
-    **Contenido:** ```{ error : ”Usuario solicitado no existente." }```
+    **Contenido:** ```{ error : ”Usuario solicitado no existente." }```<br>
     **Contenido:** ```{ error : ”Libro solicitado no existente." }```
 
     - **Código:** `500 SERVER ERROR` <br />
