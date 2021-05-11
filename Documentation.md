@@ -72,17 +72,19 @@ En la imagen superior, puede observarse la interacción de las capas de la aplic
 
 - **Usuario:** Entidad que representa a los clientes que interactuarán con el sistema de alguna forma. A partir de estos sujetos surgen los casos de uso, además de que esta entidad es una superclase para los tipos de usuario *Administrador*, *Lector Free* y *Lector Premium*.
 
-- **Rol:** Entidad que representa el tipo de *Usuario* que interactúa con el sistema, los cuales pueden ser:
+- **Tipo de usuario:** Entidad que representa el tipo de *Usuario* que interactúa con el sistema, los cuales pueden ser:
     - Administrador: tendrá los privilegios para agregar, actualizar o eliminar libros del sistema.
     - Lector Free: será capaz de entrar al sistema pero estará limitado a leer 3 libros por 2 meses.
     - Lector Premium: contará con todas las características que ofrece la aplicación, como la creación de *Readlist* y el acceso a libros de manera ilimitada.
 
 - **Libro:** Entidad que representa un libro virtual al cual tendrá acceso un usuario, el cual será capaz de leer según las restricciones mencionadas anteriormente; no obstante, el libro tendrá características como género, número de páginas, título, fecha de publicación y portada.
 
-- **Readlist:** Entidad que representa una colección de libros de acuerdo a un tema o nombre según lo desee el usuario de tipo *Premium*, el cual podrá ordenar sus libros de acuerdo a sus gustos, como se ha mencionado anteriormente.
-En esta entidad viene implícito la entidad de tipo Readlist conocida como *"Favoritos"*.
+- **Readlist:** Entidad que representa una colección de libros de acuerdo a un tema o nombre según lo desee el usuario de tipo, el cual podrá ordenar sus libros de acuerdo a sus gustos, como se ha mencionado anteriormente. Los usuarios *premiun* pueden crear readlist ilimitadas, pero los usuarios *free* estan limitados a 1 readlist.
 
-- **Rating:** Entidad que representa la calificación que tiene un libro y que ha sido otorgada por los usuarios.
+- **Readlist-libro:** Entidad que representa la interrelación entre Readlist y libro, permite almacenar los libros pertenecientes a un readlist de un usuario.
+
+
+- **Rating:** Entidad que representa la calificación y comenterios que tiene un libro, que ha sido otorgada por los usuarios.
 
 ## Diagrama Entidad-Relación
 
