@@ -1,4 +1,4 @@
-# Documento de Arquitectura de Software
+# Documento de Arquitectura de Software 
 
 # Introducción
 ## Propósito
@@ -44,10 +44,10 @@ Así pues, las capas principales de esta arquitectura se muestran y describen a 
 ## Arquitectura del Proyecto
 ![Diagrama de la arquitectura del proyecto](/assets/arquitectura.jpg)
 
-La aplicación es diseñada usando una arquitectura cliente-servidor, el cliente realiza las peticiones al servidor para solicitar información o modificar el estado, agregando nuevas entidades en la base de datos, actualizando y eliminando.
+La aplicación está diseñada usando una arquitectura cliente-servidor, el cliente realiza las peticiones al servidor para solicitar información o modificar el estado, agregando nuevas entidades en la base de datos, actualizando y eliminando.
 
-Por otro lado, el lado del servidor fue diseñado tomando en cuenta el patrón de arquitectura por capas, de manera que para nuestra aplicación, las capas se dividen en los niveles que a continuación se enlistan:
-  - **Capa Rest:** Esta capa se encarga de recibir las peticiones desde un cliente, verificar que los parametros de la petición es correcta y retornar la respuesta con los datos solicitados al cliente. Esta capa solo tiene comunicación con la capa inferior (*Capa de servicios*).
+Por otro lado, el lado del servidor fue diseñado tomando en cuenta el patrón de arquitectura por capas de manera que, para nuestra aplicación, las capas se dividen en los niveles que a continuación se enlistan:
+  - **Capa Rest:** Esta capa se encarga de recibir las peticiones desde un cliente, verificar que los parámetros de la petición sean correctos y retornar la respuesta con los datos solicitados al cliente. Esta capa solo tiene comunicación con la capa inferior (*Capa de servicios*).
   - **Capa Servicios:** Esta capa es la encargada de la lógica de negocios, en esta se establecen las reglas que debe cumplir la aplicación, así como solicitudes a servicios externos. Esta capa se comunica con la capa superior (*Capa Rest*) y la inferior (*Persistencia*).
   -  **Capa de persistencia:** En esta capa se encarga de recibir, almacenar y proporcionar los datos proveniente de la capa de servicios. Esto a través de una conexión a un sistema manejador de base de datos (*DBMS*).
   -  **Base de datos:** Permite almacenar una colección organizada de información, controlado por un DBMS.
@@ -59,9 +59,11 @@ Por otro lado, el lado del servidor fue diseñado tomando en cuenta el patrón d
 A continuación, se adjuntan los diagramas de secuencia para los verbos GET y POST para la búsqueda y almacenamiento de libros dentro de la API, los cuales son considerados los más importantes para el proyecto.
 
 ![Diagrama de Secuencia para el verbo GET libros](/assets/GetDiagram.jpg)
+
 En la imagen superior puede apreciarse cómo sucede la interacción entre las capas de la aplicación cuando un usuario de tipo *Cliente* (sin importar si este es Free o Premium) realiza una petición utilizando el verbo *GET* para indexar todos los libros almacenados en la base de datos.
 
 ![Diagrama de Secuencia para el verbo POST libro](/assets/PostDiagram.jpg)
+
 En la imagen superior, puede observarse la interacción de las capas de la aplicación cuando un usuario de tipo *Administrador* realiza una petición utilizando el verbo *POST* para almacenar un libro nuevo dentro de la base de datos.
 
 
@@ -76,6 +78,7 @@ En la imagen superior, puede observarse la interacción de las capas de la aplic
     - Administrador: tendrá los privilegios para agregar, actualizar o eliminar libros del sistema.
     - Lector Free: será capaz de entrar al sistema pero estará limitado a leer 3 libros por 2 meses.
     - Lector Premium: contará con todas las características que ofrece la aplicación, como la creación de *Readlist* y el acceso a libros de manera ilimitada.
+    
 
 - **Libro:** Entidad que representa un libro virtual al cual tendrá acceso un usuario, el cual será capaz de leer según las restricciones mencionadas anteriormente; no obstante, el libro tendrá características como género, número de páginas, título, fecha de publicación y portada.
 
@@ -120,8 +123,8 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
 * **Parámetros del Cuerpo**
   ```json 
   body {
-   “username”: string,
-   “password”: string,
+   “username”: "string",
+   “password”: "string",
    }
   ```
 * **Respuesta Exitosa:**
@@ -151,7 +154,7 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
     
 **Libros**
 ---
-### Obtener todos los libros
+### Obtener Todos los Libros
 Despliga la lista de todos los libros.
 
 * **URL**
@@ -179,7 +182,7 @@ Despliga la lista de todos los libros.
 
 * **Respuesta Exitosa:**
   * **Código:** 200 <br/>
-    **Contenido:** `Success`
+    **Contenido:** `[ {Libro1}, {Libro2}, ... {LibroN} ]`
  
 * **Respuesta Errónea:**
   * **Código:** 500 Error Server <br/>
@@ -195,8 +198,8 @@ Despliga la lista de todos los libros.
     });
   ```
   
-### Obtener un libro específico
-Permite encontrar los datos de un libro proporcinando el id.
+### Obtener un Libro Específico
+Permite encontrar los datos de un libro proporcionando el ID.
 
 * **URL**
 
@@ -222,11 +225,11 @@ Permite encontrar los datos de un libro proporcinando el id.
    Ninguno
 * **Respuesta Exitosa:**
   * **Código:** 200 <br/>
-    **Contenido:** `Success`
+    **Contenido:** `{LibroN}`
  
 * **Respuesta Errónea:**
   * **Código:** 404 Not Found <br/>
-    **Contenido:** ```json { error : ”No se encontro el libro" }```
+    **Contenido:** ```json { error : ”No se encontró el libro solicitado." }```
   <br />
   * **Código:** 500 Error Server <br/>
     **Contenido:** ```json { error : "Falla en el servidor." }```
@@ -240,11 +243,11 @@ Permite encontrar los datos de un libro proporcinando el id.
       success : Contenido
     });
   ```
-### Buscar libros
-Permite buscar libros según los parametros enviados
+### Buscar Libros
+Permite buscar libros según los parámetros enviados.
 * **URL**
 
-  `libros/find/?book=”title”&& autor=”autor”`
+  `libros/?params`
 
 
 * **Método:**
@@ -270,13 +273,13 @@ Permite buscar libros según los parametros enviados
 
 * **Respuesta Exitosa:**
   * **Código:** 200 <br/>
-    **Contenido:** `Success`
+    **Contenido:** `[{Libro1}, {Libro2}, ... {LibroN}]`
  
 * **Respuesta Errónea:**
   * **Código:** 404 Not Found <br/>
     **Contenido:** 
     ```json 
-    { "error" : "No se encontraron coincidencias" }
+    { "error" : "No se encontraron coincidencias." }
     ```
   * **Código:** 500 Error Server  <br/>
     **Contenido:** 
@@ -287,15 +290,15 @@ Permite buscar libros según los parametros enviados
 * **Ejemplo de Request:**
  ```javascript
     $.ajax({
-      url: "api/v1/libros/find/?book=”title”&& autor=”autor”&&release_date=”15-02-200”",
+      url: "api/v1/libros/?book=”title”&& autor=”autor”&&release_date=”15-02-2000”",
       dataType: "json",
       type : "GET",
       success : Contenido
     });
   ```
   
-### Agregar un nuevo libro
-Permite añadir un nuevo libto al sistema.
+### Agregar un Nuevo Libro
+Permite añadir un nuevo libro al sistema.
 
 * **URL**
 
@@ -320,15 +323,15 @@ Permite añadir un nuevo libto al sistema.
 
    ```json
   body{
-    “title”: string,
-    “author”: string,
-    “content”: string,
-    “publisher”: string,
-    “publisher_date”: date,
-    “pages”: integer,
-    “language”: string,
-    “url_download”: string,
-    “cover”: string
+    “title”: "string",
+    “author”: "string",
+    “content”: "string",
+    “publisher”: "string",
+    “publisher_date”: "date",
+    “pages”: "integer",
+    “language”: "string",
+    “url_download”: "string",
+    “cover”: "string"
   }
   ```
   
@@ -349,7 +352,7 @@ Permite añadir un nuevo libto al sistema.
       data:{
         “title”: “El Hobbit”,
         “author”: “J.R.R. Tolkien”,
-        “content”: “La historia del hobbit donde se casó.”,
+        “content”: “La historia del hobbit donde...”,
         “publisher”: “Allen & Unwin”,
         “publisher_date”: “1937”,
         “pages”: “400”,
@@ -362,12 +365,12 @@ Permite añadir un nuevo libto al sistema.
     });
   ```
   
-### Eliminar un libro
+### Eliminar un Libro
 
-Elimina un libro especifico segun su ID.
+Elimina un libro específico según su ID.
 
 * **URL**
-  /libros/(:id_book)
+  /libros/(:book_id)
 
 * **Método:**
   `DELETE`
@@ -375,7 +378,7 @@ Elimina un libro especifico segun su ID.
 *  **Parámetros de la URL**
 
    **Requeridos:**
-   `:id_book`: Id del libro que se desea encontrar. (Int)
+   `:book_id`: ID del libro que se desea encontrar. (integer)
 
    **Opcionales:**
    Ninguno
@@ -407,7 +410,7 @@ Elimina un libro especifico segun su ID.
 
 **Usuarios**
 ----
-### Encontrar Usuario
+### Encontrar un Usuario
 
 Devuelve los datos de un usuario en específico.
 
@@ -423,7 +426,7 @@ Devuelve los datos de un usuario en específico.
 
    **Requeridos:**
 
-   Ninguno
+   `user_id`: ID del usuario que es solicitado.
 
    **Opcionales:**
 
@@ -440,7 +443,7 @@ Devuelve los datos de un usuario en específico.
  
 * **Respuesta Errónea:**
   * **Código:** 400 Error Request <br />
-    **Contenido:** `{ error : "Usuario pedido inexistente." }`
+    **Contenido:** `{ error : "Usuario solicitado inexistente." }`
 
   * **Código:** 500 Error Server <br />
     **Contenido:** `{ error : "Falla en el servidor." }`
@@ -448,14 +451,14 @@ Devuelve los datos de un usuario en específico.
 * **Ejemplo de Request:**
  ```javascript
     $.ajax({
-      url: "api/v1/users",
+      url: "api/v1/users/123",
       dataType: "json",
       type : "GET",
       success : Contenido
     });
   ```
   
-### Agregar un nuevo usuario
+### Agregar un Nuevo Usuario
 Permite añadir un nuevo usuario al sistema.
 
 * **URL**
@@ -481,12 +484,12 @@ Permite añadir un nuevo usuario al sistema.
 
    ```json
   body{
-    "id": int,
-    "email": string,
-    "password": string,
-    "fullname" : string,
-    "lastname" : string,
-    "Role_id": int
+    "id": "integer",
+    "email": "string",
+    "password": "string",
+    "fullname" : "string",
+    "lastname" : "string",
+    "Role_id": "integer"
   }
   ```
   
@@ -502,28 +505,27 @@ Permite añadir un nuevo usuario al sistema.
 * **Ejemplo de Request:**
  ```javascript
     $.ajax({
-      url: "api/v1/libros/1",
+      url: "api/v1/users",
       dataType: "json",
       data:{
-        "id": "123",
         "email": "ejemplo@test.com",
         "password": "456",
         "fullname" : "aaaa",
         "lastname" : "bbbb",
-        "Role_id": "2"
+        "role_id": "2"
       }
       type : "POST",
       success : Contenido
     });
   ```
 
-### Eliminar un usuario
+### Eliminar un Usuario
 
-Elimina un usuario especifico segun su ID.
+Elimina un usuario específico según su ID.
 
 * **URL**
 
-  /users/(:id_user)
+  /users/(:user_id)
 
 * **Método:**
 
@@ -532,7 +534,7 @@ Elimina un usuario especifico segun su ID.
 *  **Parámetros de la URL**
 
    **Requeridos:** <br>
-   `id_user`: Id del usuario que se desea borrar. (Int)
+   `user_id`: ID del usuario que se desea borrar. (integer)
 
    **Opcionales:** <br>
    Ninguno
@@ -561,13 +563,13 @@ Elimina un usuario especifico segun su ID.
     });
   ```
   
-### Actualizar los datos de un usuario
+### Actualizar los Datos de un Usuario
 
-Actualiza los datos de un usuario especifico segun su ID.
+Actualiza los datos de un usuario específico según su ID.
 
 * **URL**
 
-    /users/(:id_user)
+    /users/(:user_id)
 
 * **Método**
 
@@ -577,7 +579,7 @@ Actualiza los datos de un usuario especifico segun su ID.
 
     **Requeridos:**
 
-    `:id_user`: Id del usuario que se desea actualizar. (Int)
+    `:user_id`: ID del usuario que se desea actualizar. (integer)
 
     **Opcionales:**
 
@@ -587,10 +589,10 @@ Actualiza los datos de un usuario especifico segun su ID.
 
     ```json
     body{
-      "email": string,
-      "password": string,
-      "fullname" : string,
-      "lastname" : string,
+      "email": "string",
+      "password": "string",
+      "fullname" : "string",
+      "lastname" : "string",
     }
    ```
 
@@ -611,26 +613,26 @@ Actualiza los datos de un usuario especifico segun su ID.
 
 ```javascript
     $.ajax({
-        url: "api/v1/users/{user_id}",
+        url: "api/v1/users/123",
         dataType: "json",
         data: {
          "email": "ejemplo@test.com",
-         "password": "456",
-         "fullname" : "aaaa",
-         "lastname" : "bbbb",
+         "password": "789",
+         "fullname" : "bbb",
+         "lastname" : "aaa",
         }
         type : "PATCH",
         success : Contenido
     });
 ```
 
-### Actualizar el tipo de usuario
+### Actualizar el Tipo de Usuario
 
-Actualiza el tipo de un usuario especifico segun su ID.
+Actualiza el tipo de un usuario específico según su ID.
 
 * **URL**
 
-    /users/(:id_user)/type
+    /users/(:user_id)/type
 
 * **Método**
 
@@ -640,7 +642,7 @@ Actualiza el tipo de un usuario especifico segun su ID.
 
     **Requeridos:**
 
-    `id_user`: Id del usuario que se desea actualizar. (Int)
+    `user_id`: ID del usuario que se desea actualizar. (Int)
 
     **Opcionales:**
 
@@ -650,7 +652,7 @@ Actualiza el tipo de un usuario especifico segun su ID.
 
     ```json
     body{
-      "Role_id": int
+      "role_id": "integer"
     }
    ```
 
@@ -671,10 +673,10 @@ Actualiza el tipo de un usuario especifico segun su ID.
 
 ```javascript
     $.ajax({
-        url: "api/v1/users/{user_id}",
+        url: "api/v1/users/123",
         dataType: "json",
         data: {
-         "Role_id": "2"
+         "role_id": "3"
         }
         type : "PATCH",
         success : Contenido
@@ -686,12 +688,11 @@ Actualiza el tipo de un usuario especifico segun su ID.
 ----
 ### Obtener una Readlist
 
-Permite obtener todas las ReadList de un usuario o una Readlist en específico
+Permite obtener todas las ReadList de un usuario o una Readlist en específico.
 
 * **URL**
 
-  `readlists/user/(:id)`
-  `readlist/user/(:id)?list_name=""`
+  `api/v1/readlists/?params`
 
 
 * **Método:**
@@ -702,18 +703,18 @@ Permite obtener todas las ReadList de un usuario o una Readlist en específico
 
    **Required:**
    
-   `(:id)`: ID del usuario (int)
+   `(user)`: ID del usuario (integer)
 
    **Optional:**
 
-   `list_name`: Nombre de una lista específica. (string)
+   `(list_name)`: Nombre de una lista específica. (string)
 
 * **Cuerpo Parámetros**
    Ninguno
 
 * **Respuesta Exitosa:**
   * **Código:** 200 <br>
-    **Contenido:** `Success`
+    **Contenido:** `[{Readlist1},{Readlist2}, ... {ReadlistN}]`
  
 * **Respuesta Errónea:**
   * **Código:** 404 Not Found <br>
@@ -731,19 +732,19 @@ Permite obtener todas las ReadList de un usuario o una Readlist en específico
 * **Ejemplo de Request:**
  ```javascript
     $.ajax({
-      url: "api/v1/readlists/user/(:id)?list_name=terror",
+      url: "api/v1/readlists/?user=123&&list_name="terror",
       dataType: "json",
       type : "GET",
       success : Contenido
     });
   ```
   
-  ### Agregar una nueva ReadList
+  ### Agregar una Nueva ReadList
 Permite añadir una nueva readlist para un usuario.
 
 * **URL**
 
-  `/readlists/users/(:id_user)`
+  `/readlists`
 
 
 * **Método:**
@@ -754,7 +755,7 @@ Permite añadir una nueva readlist para un usuario.
 
    **Required:**
    
-   `:id_user`: Id del usuario que esta creando la ReadList. (Int)
+   Ninguno
 
    **Optional:**
 
@@ -764,7 +765,8 @@ Permite añadir una nueva readlist para un usuario.
 
    ```json
   body{
-    “name”: string,
+    "user_id": "integer",
+    “name”: "string"
   }
   ```
   
@@ -776,19 +778,17 @@ Permite añadir una nueva readlist para un usuario.
   * **Código:** 500 Error Server <br>
     **Contenido:** ```json { error : "Falla en el servidor." }```
     
-    * **Código:** 404 Not Found <br>
-    **Contenido:** 
-    ```json 
-    { "error" : "Usuario no existente" }
-    ```
+  * **Código:** 404 Not Found <br>
+    **Contenido:** ```json { "error" : "Usuario solicitado no existente." } ```
 
 
 * **Ejemplo de Request:**
  ```javascript
     $.ajax({
-      url: "api/v1/readlists/users/1",
+      url: "api/v1/readlists",
       dataType: "json",
       data:{
+        "user_id": 123
         “name”: "asd",
       }
       type : "POST",
@@ -796,13 +796,13 @@ Permite añadir una nueva readlist para un usuario.
     });
   ```
   
-### Agregar un libro a una lista
+### Agregar un Libro a una ReadList
 Permite agregar un libro a una lista del usuario
 
 
 * **URL**
 
-  `readlists`
+  `readlists/(:readlist_id)`
 
 * **Método:**
 
@@ -812,20 +812,18 @@ Permite agregar un libro a una lista del usuario
 
    **Required:**
    
-   `user_id`: id de usuario. (int) <br/>
-   `book_id`: id del libro. (int)
+   `readlist_id`: ID de la Readlist. (integer) <br/>
 
    **Optional:**
-    ```json
-      body{
-        "user_id": 1,
-        "name": 1,
-      }
-      ```
+   Ninguno
 
 * **Parámetros del Cuerpo**
 
-   Ninguno
+   ```json
+  body{
+    "book_id": "integer"
+  }
+  ```
 
 * **Respuesta Exitosa:**
   * **Código:** 200 <br>
@@ -835,7 +833,7 @@ Permite agregar un libro a una lista del usuario
   * **Código:** 404 Not Found <br>
     **Contenido:** 
     ```json 
-    { "error" : "No se encontraron coincidencias" }
+    { "error" : "No se encontraró la Readlist solicitada." }
     ```
   * **Código:** 500 Error Server <br>
     **Contenido:** 
@@ -846,9 +844,12 @@ Permite agregar un libro a una lista del usuario
 * **Ejemplo de Request:**
  ```javascript
     $.ajax({
-      url: "api/v1/readlists/user/(:id)?list_name=terror",
+      url: "api/v1/readlists/12",
       dataType: "json",
-      type : "GET",
+      data: {
+         "book_id": 234
+        }
+      type : "POST",
       success : Contenido
     });
   ```
@@ -859,7 +860,7 @@ Elimina una Readlist previamente creada desde la cuenta de un usuario específic
 
 * **URL**
 
-  /readlist/(:id)
+  /readlists/(:readlist_id)
 
 * **Método:**
 
@@ -869,7 +870,7 @@ Elimina una Readlist previamente creada desde la cuenta de un usuario específic
 
    **Requeridos:**
 
-   Ninguno
+   `readlist_id`: ID de la Readlist. (integer)
 
    **Opcionales:**
 
@@ -885,7 +886,7 @@ Elimina una Readlist previamente creada desde la cuenta de un usuario específic
  
 * **Respuesta Errónea:**
   * **Código:** 400 Error Request <br>
-    **Contenido:** `{ error : "Readlist no existente." }`
+    **Contenido:** `{ error : "Readlist solicitada no existente." }`
 
   * **Código:** 500 Error Server <br>
     **Contenido:** `{ error : "Falla en el servidor." }`
@@ -908,7 +909,7 @@ Elimina un libro que ha sido añadido a una Readlist única en la cuenta de un u
 
 * **URL**
 
-  /readlist/(:id)/books/(:id_book)
+  /readlists/(:readlist_id)/books/(:book_id)
 
 * **Método:**
 
@@ -918,7 +919,8 @@ Elimina un libro que ha sido añadido a una Readlist única en la cuenta de un u
 
    **Requeridos:**
 
-   Ninguno
+   `readlist_id`: ID de la Readlist. (integer)
+   `book_id`: ID del libro a eliminar. (integer)
 
    **Opcionales:**
 
@@ -933,8 +935,9 @@ Elimina un libro que ha sido añadido a una Readlist única en la cuenta de un u
     **Contenido:** `Success`
  
 * **Respuesta Errónea:**
-  * **Código:** 400 Error Request <br>
+  * **Código:** 404 Not Found <br>
     **Contenido:** `{ error : "Libro no existente en la readlist indicada." }`
+    **Contenido:** `{ error : "Readlist solicitada no existente." }`
 
   * **Código:** 500 Error Server <br>
     **Contenido:** `{ error : "Falla en el servidor." }`
@@ -957,7 +960,7 @@ Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un l
 
 - **URL**
 
-    /ratings/?id_book=$
+    /ratings/?params
 
 - **Método**
 
@@ -967,11 +970,12 @@ Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un l
 
     **Requeridos:**
 
-    `book_id=[integer]`
+   Ninguno
 
     **Opcionales:**
 
     `user_id=[integer]`
+    `book_id=[integer]`
 
 - **Parámetros del Cuerpo**
 
@@ -985,7 +989,8 @@ Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un l
 - **Respuesta Errónea**
 
     - **Código:** `404 NOT FOUND` <br/>
-    **Contenido:** ```{ error : ”Algún dato erróneo." }```
+    **Contenido:** ```{ error : ”Usuario solicitado no existente." }```
+    **Contenido:** ```{ error : ”Libro solicitado no existente." }```
 
     - **Código:** `500 SERVER ERROR` <br />
     **Contenido:** ```{ error : "Falla en el servidor." }```
@@ -994,12 +999,9 @@ Devuelve todas las calificaciones que han sido asignadas, por un usuario, a un l
 
 ```javascript
     $.ajax({
-        url: "api/btfy/ratings/?book_id=$",
+        url: "api/v1/ratings/?book_id=12&&user_id=1",
         dataType: "json",
         type : "GET",
-        data: {
-            "book_id": 3578
-        }
         success : Contenido
     });
 ```
@@ -1010,7 +1012,7 @@ Añade la calificación de un usuario para un libro en específico.
 
 - **URL**
 
-    /ratings
+    /ratings/(:book_id)
 
 - **Método**
 
@@ -1020,7 +1022,7 @@ Añade la calificación de un usuario para un libro en específico.
 
     **Requeridos:**
 
-    Ninguno
+    `book_id`: ID del libro al que pertenece el rating.
 
     **Opcionales:**
 
@@ -1030,9 +1032,9 @@ Añade la calificación de un usuario para un libro en específico.
 
     ```json
     body {
-        “user_id”: integer,
-        “score”: integer,
-        “comment”: string
+        “user_id”: "integer",
+        “score”: "integer",
+        “comment”: "string"
     }
     ```
 
@@ -1043,7 +1045,7 @@ Añade la calificación de un usuario para un libro en específico.
 
 - **Respuesta Errónea**
 
-    - **Código:** `404 NOT FOUND` <br/>
+    - **Código:** `400 BAD REQUEST` <br/>
     **Contenido:** ```{ error : ”Hacen falta datos." }```
 
     - **Código:** `500 SERVER ERROR` <br />
@@ -1053,7 +1055,7 @@ Añade la calificación de un usuario para un libro en específico.
 
 ```javascript
     $.ajax({
-        url: "api/btfy/ratings",
+        url: "api/v1/ratings/324",
         dataType: "json",
         data: {
         "user_id": 12345,
@@ -1081,8 +1083,8 @@ Elimina la calificación de un libro en específico que ha sido asignada por un 
 
     **Requeridos:**
 
-    `user_id=[integer]` <br/>
-    `book_id=[integer]`
+    `user_id`: ID del usuario que eliminará un rating. <br/>
+    `book_id`: ID del libro a eliminar su rating.
 
     **Opcionales:**
 
@@ -1109,12 +1111,8 @@ Elimina la calificación de un libro en específico que ha sido asignada por un 
 
 ```javascript
     $.ajax({
-        url: "api/btfy/ratings/users/{user_id}/books/{book_id}",
+        url: "api/v1/ratings/users/45/books/632",
         dataType: "json",
-        data: {
-        "user_id": 12345,
-        "book_id": 6498
-        }
         type : "DELETE",
         success : Contenido
     });
@@ -1130,14 +1128,14 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
 - **Método**
 
-    `PUT`
+    `PATCH`
 
 - **Parámetros de la URL**
 
     **Requeridos:**
 
-    `user_id=[integer]` <br>
-    `book_id=[integer]`
+    `user_id`: ID del usuario para actualizar su rating. <br>
+    `book_id`: ID del libro a actualizar su rating.
 
     **Opcionales:**
 
@@ -1169,15 +1167,13 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
 ```javascript
     $.ajax({
-        url: "api/btfy/ratings/users/{user_id}/books/{book_id}",
+        url: "api/v1/ratings/users/23/books/100",
         dataType: "json",
         data: {
-        "user_id": 12345,
-        "book_id": 6498,
-        "score": 5,
-        "comment": "Excelente libro, lo recomiendo mucho."
+        "score": 1,
+        "comment": "Horrible libro, no lo lean."
         }
-        type : "UPDATE",
+        type : "PATCH",
         success : Contenido
     });
 ```
@@ -1191,13 +1187,13 @@ Se deberan poder realizar todas las funcionalidades especificadas para el sistem
 Cualquier error que surga debe poder ser identificado y manejado por el sistema sin falta, y debe ser posible recuperarse de este con facilidad.
 
 ## Usabilidad
-El sistema debera tener una alta usabildiad, pudiendo ser utilizado con facilidad por los usuarios finales sin necesidad de capacitación.
+El sistema debera tener una alta usabilidad, pudiendo ser utilizado con facilidad por los usuarios finales sin necesidad de capacitación.
 
 ## Eficiencia
-Gracias a varias caracteristicas de un sistema RESTful como la falta de estado y la cacheabilidad el sistema debe ser altamente eficiente.
+Gracias a las caracteristicas de un sistema RESTful, como la falta de estado y la cacheabilidad el sistema, debe ser altamente eficiente.
 
 ## Mantenibilidad
-Debido a la interfaz uniforme del sistema este debe ser facil de probar, y debe ser posible hacer correciones y añadir nuevas caracteristicas sin complicaciones.
+Debido a la interfaz uniforme del sistema este debe ser facil de probar, y debe ser posible hacer correciones y añadir nuevas características sin complicaciones.
 
 ## Portabilidad
-La capacidad de separar la interfaz de usuario del almacenamiento de los datos debido a la estructura cliente-servidor debe permitir al sistema tener mayor portabilidad a travez de diferentes plataformas.
+La capacidad de separar la interfaz de usuario del almacenamiento de los datos debido a la estructura cliente-servidor debe permitir al sistema tener mayor portabilidad a través de diferentes plataformas.
