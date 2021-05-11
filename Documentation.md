@@ -789,7 +789,7 @@ Permite añadir una nueva readlist para un usuario.
       dataType: "json",
       data:{
         "user_id": 123
-        “name”: "asd",
+        "name": "asd",
       }
       type : "POST",
       success : Contenido
