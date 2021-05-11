@@ -123,9 +123,9 @@ Permite identificar a un usuario y acceder a su respectiva cuenta.
 * **Parámetros del Cuerpo**
   ```json 
   body {
-   “username”: "string",
-   “password”: "string",
-   }
+   "username": "string",
+   "password": "string",
+  }
   ```
 * **Respuesta Exitosa:**
   * **Código:** 200 <br />
@@ -323,15 +323,15 @@ Permite añadir un nuevo libro al sistema.
 
    ```json
   body{
-    “title”: "string",
-    “author”: "string",
-    “content”: "string",
-    “publisher”: "string",
-    “publisher_date”: "date",
-    “pages”: "integer",
-    “language”: "string",
-    “url_download”: "string",
-    “cover”: "string"
+    "title": "string",
+    "author": "string",
+    "content": "string",
+    "publisher": "string",
+    "publisher_date": "date",
+    "pages": "integer",
+    "language": "string",
+    "url_download": "string",
+    "cover": "string"
   }
   ```
   
@@ -350,15 +350,15 @@ Permite añadir un nuevo libro al sistema.
       url: "api/v1/libros/1",
       dataType: "json",
       data:{
-        “title”: “El Hobbit”,
-        “author”: “J.R.R. Tolkien”,
-        “content”: “La historia del hobbit donde...”,
-        “publisher”: “Allen & Unwin”,
-        “publisher_date”: “1937”,
-        “pages”: “400”,
-        “language”: “spanish”,
-        “url_download”: “https://www.librodownload.com”,
-        “cover”: “cover.jpg”
+        "title": "El Hobbit",
+        "author": "J.R.R. Tolkien",
+        "content": "La historia del hobbit donde...",
+        "publisher": "Allen & Unwin",
+        "publisher_date": 1937,
+        "pages": 400,
+        "language": "spanish",
+        "url_download": "https://www.librodownload.com",
+        "cover": "cover.jpg"
       }
       type : "POST",
       success : Contenido
@@ -489,7 +489,7 @@ Permite añadir un nuevo usuario al sistema.
     "password": "string",
     "fullname" : "string",
     "lastname" : "string",
-    "Role_id": "integer"
+    "role_id": "integer"
   }
   ```
   
@@ -512,7 +512,7 @@ Permite añadir un nuevo usuario al sistema.
         "password": "456",
         "fullname" : "aaaa",
         "lastname" : "bbbb",
-        "role_id": "2"
+        "role_id": 2
       }
       type : "POST",
       success : Contenido
@@ -676,7 +676,7 @@ Actualiza el tipo de un usuario específico según su ID.
         url: "api/v1/users/123",
         dataType: "json",
         data: {
-         "role_id": "3"
+         "role_id": 3
         }
         type : "PATCH",
         success : Contenido
@@ -766,7 +766,7 @@ Permite añadir una nueva readlist para un usuario.
    ```json
   body{
     "user_id": "integer",
-    “name”: "string"
+    "name": "string"
   }
   ```
   
@@ -1032,9 +1032,9 @@ Añade la calificación de un usuario para un libro en específico.
 
     ```json
     body {
-        “user_id”: "integer",
-        “score”: "integer",
-        “comment”: "string"
+        "user_id": "integer",
+        "score": "integer",
+        "comment": "string"
     }
     ```
 
@@ -1145,8 +1145,8 @@ Actualiza la calificación (con su respectivo comentario, si así lo desea el us
 
     ```json
     body{
-        “score”: integer,
-        “comment”: string
+        "score": "integer",
+        "comment": "string"
     }
     ```
 
