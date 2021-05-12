@@ -1,4 +1,20 @@
-# Documento de Arquitectura de Software 
+# Documento de Arquitectura de Software
+
+**Nombre del Software:** Booktify.
+---
+
+**Autores:**
+---
+*Ariel Enrique May Dzul*
+--
+*David Isaac Mendoza Ita*
+--
+*Rodrigo Moguel Gamboa*
+--
+*Naomi García Sánchez*
+---
+
+<br> <br>
 
 # Introducción
 ## Propósito
