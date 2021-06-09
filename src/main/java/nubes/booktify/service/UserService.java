@@ -96,7 +96,7 @@ public class UserService {
         user.setCreated(LocalDateTime.now());
         user.setUpdated(LocalDateTime.now());
 
-        user.setTypeUser(new TypeUser(3, Type.Free));
+        user.setTypeUser(new TypeUser(3, Type.FREE));
 
         user = this.userRepository.save(user);
 
