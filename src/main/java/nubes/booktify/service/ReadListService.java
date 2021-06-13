@@ -41,12 +41,9 @@ public class ReadListService {
 
   public ReadList updateReadlist(Integer id, ReadListRequest readlistRequest) {
 
-    Optional<ReadList> readlist = readlistRepository.findById(id);
-    if (!readlist.isPresent()) {
-      throw new NotFoundException("El ReadList solicitado no existe");
-    }
+    ReadList readlist = getReadlistById(id);
 
-    ReadList editedReadlist = readlist.get().updateReadList(readlistRequest);
+    ReadList editedReadlist = readlist.updateReadList(readlistRequest);
     readlistRepository.save(editedReadlist);
 
     return editedReadlist;
