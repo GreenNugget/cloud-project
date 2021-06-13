@@ -1,5 +1,7 @@
 package nubes.booktify.model.request;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
@@ -24,7 +26,6 @@ public class CreateBookRequest {
     @NotEmpty
     private String publisher;
 
-    @NotEmpty
     private String publisherDate;
 
     private Integer pages;
@@ -46,19 +47,19 @@ public class CreateBookRequest {
         this.author = author;
         this.pages = pages;
     }*/
-/*
-    public BookRequest title(String title){
+
+    public CreateBookRequest title(String title){
         this.title = title;
         return this;
     }
 
-    public BookRequest author(String author) {
+    public CreateBookRequest author(String author) {
         this.author = author;
         return this;
     }
 
-    public BookRequest pages(Integer pages) {
+    public CreateBookRequest pages(Integer pages) {
         this.pages = pages;
         return this;
-    }    */
+    }    
 }
