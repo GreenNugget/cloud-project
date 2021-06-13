@@ -31,12 +31,19 @@ public class BookService {
         return books;
     }
 
-    public Optional<Book> searchBookById(Integer id) {
-        return bookRepository.findById(id);
+    public List<Book> searchBookById(Integer id) {
+        //Integer bookId = Integer.parseInt(id);
+        return bookRepository.findByBookId(id);
     }
 
-    public List<Book> searchBookByTitle(String title) {
-        return bookRepository.findByTitle(title);
+    public List<Book> searchBook(String title,String author, String date) {
+        List<Book> foundBooks = new LinkedList<>();
+
+        bookRepository.findByTitle(title).iterator().forEachRemaining(foundBooks::add);
+        bookRepository.findByAuthor(author).iterator().forEachRemaining(foundBooks::add);
+        bookRepository.findByPublisherDate(date).iterator().forEachRemaining(foundBooks::add);
+
+        return foundBooks;
     }
     
     @Transactional
@@ -55,7 +62,6 @@ public class BookService {
         String formattedDate = date.format(formater);*/
 
         book.setPublisherDate(bookReq.getPublisherDate());
-
         book.setPages(bookReq.getPages());
         book.setLanguage(bookReq.getLanguage());
         book.setUrlDetails(bookReq.getUrlDetails());
@@ -67,10 +73,10 @@ public class BookService {
     }
     
     @Transactional
-    public Book deleteBook(String title){
-        Book deletedBook = bookRepository.findByTitle(title).get(0);
+    public Book deleteBook(Integer bookId){
+        Book deletedBook = bookRepository.findByBookId(bookId).get(0);
 
-        bookRepository.deleteById(deletedBook.getId());;
+        bookRepository.deleteById(deletedBook.getBookId());;
         return deletedBook;
     }
 
