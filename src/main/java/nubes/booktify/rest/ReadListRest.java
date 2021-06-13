@@ -45,7 +45,9 @@ public class ReadListRest {
   }
 
   @DeleteMapping("/readlist/{id}")
-  public ResponseEntity<Void> deleteReadList() {
+  public ResponseEntity<Void> deleteReadList(@PathVariable Integer id) {
+    readlistService.deleteReadList(id);
+
     return ResponseEntity.ok().build();
   }
 }

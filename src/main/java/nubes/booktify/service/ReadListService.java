@@ -52,6 +52,11 @@ public class ReadListService {
     return editedReadlist;
   }
 
+  public void deleteReadList(Integer id) {
+    ReadList readlist = getReadlistById(id);
+    readlistRepository.delete(readlist);
+  }
+
   private void validateUser(Integer userId) {
     Optional<User> user = userRepository.findById(userId);
 
