@@ -80,6 +80,7 @@ public class BookService {
         return deletedBook;
     }
 
+    @Transactional
     public Book updateBook(String title, UpdateBookRequest updatedBook){
         Book updBook = bookRepository.findByTitle(title).get(0);
 

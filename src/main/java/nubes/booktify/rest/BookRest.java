@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import nubes.booktify.model.Book;
 import nubes.booktify.model.request.CreateBookRequest;
+import nubes.booktify.model.request.UpdateBookRequest;
 import nubes.booktify.service.BookService;
 
 @RestController
@@ -50,6 +52,12 @@ public class BookRest {
         Book book = bookService.createBook(request);
 
         return ResponseEntity.created(new URI("/libros/" + book.getBookId())).body(book);
+    }
+
+    @PutMapping("/libros/{title}") //Update a book
+    public ResponseEntity<Book> editarPorfesor(@PathVariable("title") String title,
+            @RequestBody UpdateBookRequest bookReq) {
+        return ResponseEntity.ok().body(bookService.updateBook(title, bookReq));
     }
 
     @DeleteMapping("/libros/{id}") //Delete book
