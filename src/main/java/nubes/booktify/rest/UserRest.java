@@ -58,6 +58,14 @@ public class UserRest {
         return ResponseEntity.ok().body(user);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/users/{id}/ascend")
+    public ResponseEntity<User> putAscendUser(@PathVariable Integer id) {
+        User user = this.userService.putAscendUser(id);
+
+        return ResponseEntity.ok().body(user);
+    }
+
     @PostMapping("/users")
     public ResponseEntity<User> postUser(@RequestBody @Valid UserRequest userRequest) {
         User user = this.userService.postUser(userRequest);

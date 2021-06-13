@@ -128,6 +128,23 @@ public class UserService {
     }
 
     @Transactional
+    public User putAscendUser(Integer id) {
+        Optional<User> uOptional = this.userRepository.findById(id);
+
+        if(!uOptional.isPresent()) {
+            throw new NotFoundException("El usuario solicitado no existe.");
+        }
+
+        User user = uOptional.get();
+        user.setTypeUser(new TypeUser(1, Type.ADMIN));
+        user.setUpdated(LocalDateTime.now());
+
+        user = this.userRepository.save(user);
+
+        return user;
+    }
+
+    @Transactional
     public void deleteUserById(Integer id) {
         User user = this.getUserById(id);
 
