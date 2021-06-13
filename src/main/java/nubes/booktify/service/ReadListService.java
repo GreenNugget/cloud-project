@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import nubes.booktify.exception.NotFoundException;
 import nubes.booktify.model.ReadList;
 import nubes.booktify.model.User;
+import nubes.booktify.model.request.ReadListRequest;
 import nubes.booktify.repository.ReadListRepository;
 import nubes.booktify.repository.UserRepository;
 
@@ -29,12 +30,26 @@ public class ReadListService {
     return readlist.get();
   }
 
-  public ReadList createReadList(ReadList readlist) {
-    validateUser(readlist.getUserId());
+  public ReadList createReadList(ReadListRequest readlistRequest) {
+    validateUser(readlistRequest.getUserId());
 
-    readlistRepository.save(readlist);
+    ReadList readlist = new ReadList();
+    readlistRepository.save(readlist.setReadList(readlistRequest));
 
     return readlist;
+  }
+
+  public ReadList updateReadlist(Integer id, ReadListRequest readlistRequest) {
+
+    Optional<ReadList> readlist = readlistRepository.findById(id);
+    if (!readlist.isPresent()) {
+      throw new NotFoundException("El ReadList solicitado no existe");
+    }
+
+    ReadList editedReadlist = readlist.get().updateReadList(readlistRequest);
+    readlistRepository.save(editedReadlist);
+
+    return editedReadlist;
   }
 
   private void validateUser(Integer userId) {

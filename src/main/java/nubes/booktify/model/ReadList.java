@@ -6,8 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
+import nubes.booktify.model.request.ReadListRequest;
 
 @Entity
 @Table(name = "readlist")
@@ -18,11 +18,9 @@ public class ReadList {
   @Column(name = "readlist_id")
   private Integer id;
 
-  @NotNull
   @Column(name = "user_id")
   private Integer userId;
 
-  @NotEmpty
   @Column(name = "name")
   private String name;
 
@@ -30,6 +28,9 @@ public class ReadList {
     this.id = id;
     this.userId = userId;
     this.name = name;
+  }
+
+  public ReadList() {
   }
 
   public Integer getId() {
@@ -54,6 +55,17 @@ public class ReadList {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public ReadList setReadList(ReadListRequest request) {
+    this.name = request.getName();
+    this.userId = request.getUserId();
+    return this;
+  }
+
+  public ReadList updateReadList(ReadListRequest request) {
+    this.name = request.getName();
+    return this;
   }
 
 }
