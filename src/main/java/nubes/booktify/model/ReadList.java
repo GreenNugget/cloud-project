@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "readlist")
@@ -16,9 +18,11 @@ public class ReadList {
   @Column(name = "readlist_id")
   private Integer id;
 
+  @NotNull
   @Column(name = "user_id")
   private Integer userId;
 
+  @NotEmpty
   @Column(name = "name")
   private String name;
 
