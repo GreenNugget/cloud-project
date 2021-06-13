@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookRequest {
+public class CreateBookRequest {
 
     @NotEmpty
     private String title;

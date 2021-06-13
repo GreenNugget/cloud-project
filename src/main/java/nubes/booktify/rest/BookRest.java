@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nubes.booktify.model.Book;
-import nubes.booktify.model.request.BookRequest;
+import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.service.BookService;
 
 @RestController
@@ -31,7 +31,7 @@ public class BookRest {
     }
 
     @PostMapping("/libros")
-    public ResponseEntity<Book> crearLibro(@RequestBody @Valid BookRequest request)
+    public ResponseEntity<Book> crearLibro(@RequestBody @Valid CreateBookRequest request)
             throws URISyntaxException {
 
         Book book = bookService.createBook(request);
