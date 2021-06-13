@@ -1,7 +1,5 @@
 package nubes.booktify.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,23 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
-//import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-//@NoArgsConstructor
 @Table(name = "books")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="book_id")
-    private Integer id;
+    private Integer bookId;
 
     @Column(name = "title")
     private String title;
@@ -69,12 +63,12 @@ public class Book {
         this.publisher = publisher;
     }*/
 
-    public Book id(Integer id) {
-        this.id = id;
+    public Book bookId(Integer id) {
+        this.bookId = id;
         return this;
     }
 
-    public Book nombre(String title) {
+    public Book title(String title) {
         this.title = title;
         return this;
     }
