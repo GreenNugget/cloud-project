@@ -1,11 +1,20 @@
 package nubes.booktify.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 
 import nubes.booktify.model.request.ReadListRequest;
 
@@ -19,10 +28,15 @@ public class ReadList {
   private Integer id;
 
   @Column(name = "user_id")
+  @JsonIgnore
   private Integer userId;
 
   @Column(name = "name")
   private String name;
+
+  @ManyToMany
+  @JoinTable(name = "readlists_books", joinColumns = @JoinColumn(name = "readlist_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
+  private List<Book> books;
 
   public ReadList(Integer id, Integer userId, String name) {
     this.id = id;
@@ -55,6 +69,14 @@ public class ReadList {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public List<Book> getBooks() {
+    return books;
+  }
+
+  public void setBooks(List<Book> books) {
+    this.books = books;
   }
 
   public ReadList setReadList(ReadListRequest request) {

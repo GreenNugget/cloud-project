@@ -1,5 +1,7 @@
 package nubes.booktify.rest;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,18 +55,24 @@ public class ReadListRest {
     return ResponseEntity.ok().build();
   }
 
+  @GetMapping("/readlist/user/{id}")
+  public ResponseEntity<List<ReadList>> getReadlistByUser(@PathVariable Integer id) {
+    List<ReadList> list = readlistService.findReadlistByUserId(id);
+    return ResponseEntity.ok().body(list);
+  }
+
   @PostMapping("/readlist/{readlistId}/book/{bookId}")
   public ResponseEntity<ReadListBooks> addBook(@PathVariable Integer readlistId, @PathVariable Integer bookId) {
     ReadlistBookRequest request = new ReadlistBookRequest(readlistId, bookId);
 
-    ReadListBooks readlistBook = readlistService.addSong(request);
+    ReadListBooks readlistBook = readlistService.addBook(request);
 
     return ResponseEntity.ok().body(readlistBook);
   }
 
   @DeleteMapping("/readlist/book/{id}")
   public ResponseEntity<Void> removeBook(@PathVariable Integer id) {
-    readlistService.removeSong(id);
+    readlistService.removeBook(id);
     return ResponseEntity.ok().build();
   }
 }

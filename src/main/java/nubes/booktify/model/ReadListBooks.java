@@ -5,10 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "readlists_books")
+@JsonIgnoreProperties({ "readlist.book" })
 public class ReadListBooks {
 
   @Id
@@ -16,15 +21,17 @@ public class ReadListBooks {
   @Column(name = "readlist_book_id")
   private Integer id;
 
-  @Column(name = "readlist_id")
-  private Integer readListId;
+  @ManyToOne
+  @JoinColumn(name = "readlist_id")
+  private ReadList readList;
 
-  @Column(name = "book_id")
-  private Integer bookId;
+  @ManyToOne
+  @JoinColumn(name = "book_id")
+  private Book book;
 
-  public ReadListBooks(Integer readListId, Integer bookId) {
-    this.readListId = readListId;
-    this.bookId = bookId;
+  public ReadListBooks(ReadList readList, Book book) {
+    this.readList = readList;
+    this.book = book;
   }
 
   public ReadListBooks() {
@@ -38,20 +45,20 @@ public class ReadListBooks {
     this.id = id;
   }
 
-  public Integer getReadListId() {
-    return readListId;
+  public ReadList getReadList() {
+    return readList;
   }
 
-  public void setReadListId(Integer readListId) {
-    this.readListId = readListId;
+  public void setReadList(ReadList readList) {
+    this.readList = readList;
   }
 
-  public Integer getBookId() {
-    return bookId;
+  public Book getBook() {
+    return book;
   }
 
-  public void setBookId(Integer bookId) {
-    this.bookId = bookId;
+  public void setBook(Book book) {
+    this.book = book;
   }
 
 }

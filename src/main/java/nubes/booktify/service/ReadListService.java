@@ -1,5 +1,6 @@
 package nubes.booktify.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,19 +66,23 @@ public class ReadListService {
     readlistRepository.delete(readlist);
   }
 
-  public ReadListBooks addSong(ReadlistBookRequest request) {
-    validateSong(request.getBookId());
-    getReadlistById(request.getReadListId());
+  public ReadListBooks addBook(ReadlistBookRequest request) {
+    Book book = validateBook(request.getBookId());
+    ReadList readlist = getReadlistById(request.getReadListId());
 
-    ReadListBooks readlistBooks = new ReadListBooks(request.getReadListId(), request.getBookId());
+    ReadListBooks readlistBooks = new ReadListBooks(readlist, book);
 
     readlistsBooks.save(readlistBooks);
 
     return readlistBooks;
   }
 
-  public void removeSong(Integer id) {
+  public void removeBook(Integer id) {
     readlistsBooks.deleteById(id);
+  }
+
+  public List<ReadList> findReadlistByUserId(Integer id) {
+    return readlistRepository.findByUserId(id);
   }
 
   private void validateUser(Integer userId) {
@@ -88,12 +93,14 @@ public class ReadListService {
     }
   }
 
-  private void validateSong(Integer id) {
+  private Book validateBook(Integer id) {
     Optional<Book> book = bookRepository.findById(id);
 
     if (!book.isPresent()) {
       throw new NotFoundException("El id del libro ingresado no existe");
     }
+
+    return book.get();
   }
 
 }
