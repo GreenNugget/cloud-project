@@ -1,6 +1,7 @@
 package nubes.booktify.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -14,11 +15,15 @@ import nubes.booktify.exception.CredentialsInvalid;
 import nubes.booktify.exception.NotFoundException;
 import nubes.booktify.exception.UnprocessableEntity;
 import nubes.booktify.model.Jwt;
+import nubes.booktify.model.Rating;
+import nubes.booktify.model.ReadList;
 import nubes.booktify.model.Type;
 import nubes.booktify.model.TypeUser;
 import nubes.booktify.model.User;
 import nubes.booktify.model.request.LoginRequest;
 import nubes.booktify.model.request.UserRequest;
+import nubes.booktify.repository.RatingRepository;
+import nubes.booktify.repository.ReadListRepository;
 import nubes.booktify.repository.UserRepository;
 
 @Service
@@ -29,6 +34,11 @@ public class UserService {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    RatingRepository ratingRepository;
+
+    @Autowired
+    ReadListRepository readListRepository;
 
     public User getUserById(Integer id) {
         Optional<User> user = this.userRepository.findById(id);
@@ -148,7 +158,17 @@ public class UserService {
     public void deleteUserById(Integer id) {
         User user = this.getUserById(id);
 
-        //validar si tiene readlist
+        List<ReadList> readlists = this.readListRepository.findByUserId(id);
+
+        if(readlists != null) {
+            this.readListRepository.deleteAll(readlists);
+        }
+
+        Optional<List<Rating>> ratings = this.ratingRepository.findByUserUserId(id);
+
+        if(ratings.isPresent()) {
+            this.ratingRepository.deleteAll(ratings.get());
+        }
 
         this.userRepository.delete(user);
     }
