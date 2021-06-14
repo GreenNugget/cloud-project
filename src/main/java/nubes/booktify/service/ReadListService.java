@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import nubes.booktify.exception.NotFoundException;
 import nubes.booktify.model.Book;
@@ -42,6 +43,7 @@ public class ReadListService {
     return readlist.get();
   }
 
+  @Transactional
   public ReadList createReadList(ReadListRequest readlistRequest) {
     validateUser(readlistRequest.getUserId());
 
@@ -51,6 +53,7 @@ public class ReadListService {
     return readlist;
   }
 
+  @Transactional
   public ReadList updateReadlist(Integer id, ReadListRequest readlistRequest) {
 
     ReadList readlist = getReadlistById(id);
@@ -61,11 +64,13 @@ public class ReadListService {
     return editedReadlist;
   }
 
+  @Transactional
   public void deleteReadList(Integer id) {
     ReadList readlist = getReadlistById(id);
     readlistRepository.delete(readlist);
   }
 
+  @Transactional
   public ReadListBooks addBook(ReadlistBookRequest request) {
     Book book = validateBook(request.getBookId());
     ReadList readlist = getReadlistById(request.getReadListId());
@@ -77,11 +82,13 @@ public class ReadListService {
     return readlistBooks;
   }
 
+  @Transactional
   public void removeBook(Integer id) {
     readlistsBooks.deleteById(id);
   }
 
   public List<ReadList> findReadlistByUserId(Integer id) {
+    validateUser(id);
     return readlistRepository.findByUserId(id);
   }
 
