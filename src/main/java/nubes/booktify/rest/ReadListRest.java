@@ -1,10 +1,13 @@
 package nubes.booktify.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,9 +39,9 @@ public class ReadListRest {
   }
 
   @PostMapping("/readlist")
-  public ResponseEntity<ReadList> postReadList(@RequestBody @Valid ReadListRequest readlist) {
+  public ResponseEntity<ReadList> postReadList(@RequestBody @Valid ReadListRequest readlist) throws URISyntaxException {
     ReadList readList = readlistService.createReadList(readlist);
-    return ResponseEntity.ok().body(readList);
+    return ResponseEntity.created(new URI("/readlist/" + readList.getId())).body(readList);
   }
 
   @PutMapping("/readlist/{id}")
@@ -67,7 +70,7 @@ public class ReadListRest {
 
     ReadListBooks readlistBook = readlistService.addBook(request);
 
-    return ResponseEntity.ok().body(readlistBook);
+    return ResponseEntity.status(HttpStatus.CREATED).body(readlistBook);
   }
 
   @DeleteMapping("/readlist/book/{id}")
