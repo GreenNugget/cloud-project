@@ -28,6 +28,13 @@ public class RatingRest {
     @Autowired
     private RatingService ratingService;
 
+    @GetMapping("/ratings/{ratingId}")
+    public ResponseEntity<Rating> getRating(@PathVariable Integer ratingId) {
+        Rating rating = this.ratingService.getRating(ratingId);
+
+        return ResponseEntity.ok().body(rating);
+    }
+
     @GetMapping("/ratings/users/{userId}")
     public ResponseEntity<List<Rating>> getUserRatings(@PathVariable Integer userId) {
         List<Rating> ratings = this.ratingService.getRatingsByUserId(userId);
@@ -49,6 +56,13 @@ public class RatingRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(rating);
     }
 
+    @PutMapping("/ratings/{ratingId}")
+    public ResponseEntity<Rating> updateRating(@PathVariable Integer ratingId, @RequestBody @Valid UpdateRatingRequest ratingRequest) {
+        Rating rating = ratingService.updateRating(ratingId, ratingRequest);
+
+        return ResponseEntity.ok().body(rating);
+    }
+
     @PutMapping("/ratings/users/{userId}/books/{bookId}")
     public ResponseEntity<Rating> updateRating(@PathVariable Integer userId, @PathVariable Integer bookId, @RequestBody @Valid UpdateRatingRequest ratingRequest) {
         return ResponseEntity.ok().body(ratingService.updateRating(userId, bookId, ratingRequest));
@@ -61,5 +75,11 @@ public class RatingRest {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/ratings/{ratingId}")
+    public ResponseEntity<Void> deleteRating(@PathVariable Integer ratingId) {
+        this.ratingService.deleteRating(ratingId);
+
+        return ResponseEntity.ok().build();
+    }
 
 }

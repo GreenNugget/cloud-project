@@ -31,6 +31,16 @@ public class RatingService {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    public Rating getRating(Integer ratingId) {
+        Optional<Rating> rating = this.ratingRepository.findById(ratingId);
+
+        if(!rating.isPresent()) {
+            throw new NotFoundException("No se encontró el Rating solicitado");
+        }
+
+        return rating.get();
+    }
+
     public List<Rating> getRatingsByUserId(Integer userId) {
         Optional<List<Rating>> ratings = this.ratingRepository.findByUserUserId(userId);
 
@@ -74,8 +84,27 @@ public class RatingService {
     }
 
     @Transactional
+    public Rating updateRating(Integer ratingId, UpdateRatingRequest updateRatingRequest) {
+        Rating rating = this.getRating(ratingId);
+
+        rating.setScore(updateRatingRequest.getScore());
+        rating.setComment(updateRatingRequest.getComment());
+
+        rating = this.ratingRepository.save(rating);
+
+        return rating;
+    }
+
+    @Transactional
     public void deleteRating(Integer userId, Integer bookId) {
         Rating rating = this.getRatingByUserIdBookId(userId, bookId);
+        this.ratingRepository.delete(rating);
+    }
+
+    @Transactional
+    public void deleteRating(Integer ratingId) {
+        Rating rating = this.getRating(ratingId);
+
         this.ratingRepository.delete(rating);
     }
 }
