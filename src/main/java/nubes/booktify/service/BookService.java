@@ -1,15 +1,9 @@
 package nubes.booktify.service;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-/*import org.graalvm.compiler.hotspot.nodes.PluginFactory_BeginLockScopeNode;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +26,6 @@ public class BookService {
     }
 
     public List<Book> searchBookById(Integer id) {
-        //Integer bookId = Integer.parseInt(id);
         return bookRepository.findByBookId(id);
     }
 
@@ -55,12 +48,6 @@ public class BookService {
         book.setContent(bookReq.getContent());
         book.setShortContent(bookReq.getShortContent());
         book.setPublisher(bookReq.getPublisher());
-
-/*
-        LocalDateTime date = LocalDateTime.now();
-        DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String formattedDate = date.format(formater);*/
-
         book.setPublisherDate(bookReq.getPublisherDate());
         book.setPages(bookReq.getPages());
         book.setLanguage(bookReq.getLanguage());
