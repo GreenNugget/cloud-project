@@ -21,4 +21,37 @@ public class ReadListBooks {
 
   @Column(name = "book_id")
   private Integer bookId;
+
+  public ReadListBooks(Integer readListId, Integer bookId) {
+    this.readListId = readListId;
+    this.bookId = bookId;
+  }
+
+  public ReadListBooks() {
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Integer getReadListId() {
+    return readListId;
+  }
+
+  public void setReadListId(Integer readListId) {
+    this.readListId = readListId;
+  }
+
+  public Integer getBookId() {
+    return bookId;
+  }
+
+  public void setBookId(Integer bookId) {
+    this.bookId = bookId;
+  }
+
 }
