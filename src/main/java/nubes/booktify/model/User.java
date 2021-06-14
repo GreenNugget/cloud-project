@@ -20,7 +20,7 @@ public class User {
     @Id
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer user_id;
+    private Integer userId;
 
     @Column(name = "email")
     private String email;
@@ -50,11 +50,11 @@ public class User {
     private TypeUser typeUser;
 
     public Integer getId() {
-        return user_id;
+        return userId;
     }
 
-    public void setId(Integer user_id) {
-        this.user_id = user_id;
+    public void setId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {
