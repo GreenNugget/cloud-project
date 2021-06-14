@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class BookRest {
         return ResponseEntity.ok().body(bookService.searchBook(title, author, date));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/libros") //Create new book
     public ResponseEntity<Book> crearLibro(@RequestBody @Valid CreateBookRequest request)
             throws URISyntaxException {
@@ -54,12 +56,14 @@ public class BookRest {
         return ResponseEntity.created(new URI("/libros/" + book.getBookId())).body(book);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/libros/{title}") //Update a book
     public ResponseEntity<Book> editarPorfesor(@PathVariable("title") String title,
             @RequestBody UpdateBookRequest bookReq) {
         return ResponseEntity.ok().body(bookService.updateBook(title, bookReq));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/libros/{id}") //Delete book
     public ResponseEntity<Book> eliminarLibro(@PathVariable("id") Integer bookId) {
         return ResponseEntity.ok().body(bookService.deleteBook(bookId));
