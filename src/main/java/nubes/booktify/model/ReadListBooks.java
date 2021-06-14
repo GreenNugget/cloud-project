@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -22,11 +23,12 @@ public class ReadListBooks {
   private Integer id;
 
   @ManyToOne
-  @JoinColumn(name = "readlist_id")
+  @JoinColumn(name = "readlist_id", nullable = false)
+  @JsonIgnore
   private ReadList readList;
 
   @ManyToOne
-  @JoinColumn(name = "book_id")
+  @JoinColumn(name = "book_id", nullable = false)
   private Book book;
 
   public ReadListBooks(ReadList readList, Book book) {
