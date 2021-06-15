@@ -36,7 +36,7 @@ public class BookRest {
         return ResponseEntity.ok().body(bookService.getBooks());
     }
 
-    @GetMapping("/libros/buscar") //Search by id
+    @GetMapping("/libros/{id}") //Search by id
     public ResponseEntity<List<Book>> buscarPorId(@RequestParam("id") Integer bookId) {
         return ResponseEntity.ok().body(bookService.searchBookById(bookId));
     }
@@ -57,10 +57,10 @@ public class BookRest {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/libros/{title}") //Update a book
-    public ResponseEntity<Book> editarPorfesor(@PathVariable("title") String title,
+    @PutMapping("/libros/{id}") //Update a book
+    public ResponseEntity<Book> editarPorfesor(@PathVariable("id") Integer bookId,
             @RequestBody UpdateBookRequest bookReq) {
-        return ResponseEntity.ok().body(bookService.updateBook(title, bookReq));
+        return ResponseEntity.ok().body(bookService.updateBook(bookId, bookReq));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

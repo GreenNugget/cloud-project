@@ -68,8 +68,8 @@ public class BookService {
     }
 
     @Transactional
-    public Book updateBook(String title, UpdateBookRequest updatedBook){
-        Book updBook = bookRepository.findByTitle(title).get(0);
+    public Book updateBook(Integer bookId, UpdateBookRequest updatedBook){
+        Book updBook = bookRepository.findByBookId(bookId).get(0);//findByTitle(title).get(0);
 
         Book bookReference = bookRepository.findByTitle(updBook.getTitle()).get(0);
         bookReference = setBookNewValues(bookReference, updatedBook);
