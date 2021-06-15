@@ -1,6 +1,7 @@
 package nubes.booktify.service;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -36,7 +37,9 @@ public class BookService {
         bookRepository.findByAuthor(author).iterator().forEachRemaining(foundBooks::add);
         bookRepository.findByPublisherDate(date).iterator().forEachRemaining(foundBooks::add);
 
-        return foundBooks;
+        List<Book> noRepeat = foundBooks.stream().distinct().collect(Collectors.toList());
+
+        return noRepeat;
     }
     
     @Transactional
