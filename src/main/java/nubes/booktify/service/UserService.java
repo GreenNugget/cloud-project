@@ -24,6 +24,7 @@ import nubes.booktify.model.request.LoginRequest;
 import nubes.booktify.model.request.UserRequest;
 import nubes.booktify.repository.RatingRepository;
 import nubes.booktify.repository.ReadListRepository;
+import nubes.booktify.repository.TypeUserRepository;
 import nubes.booktify.repository.UserRepository;
 
 @Service
@@ -39,6 +40,9 @@ public class UserService {
 
     @Autowired
     ReadListRepository readListRepository;
+
+    @Autowired
+    TypeUserRepository typeUserRepository;
 
     public User getUserById(Integer id) {
         Optional<User> user = this.userRepository.findById(id);
@@ -91,7 +95,7 @@ public class UserService {
     }
 
     @Transactional
-    public User postUser(UserRequest userRequest) {
+    public User postUser(UserRequest userRequest, Type type) {
 
         validateEmail(userRequest.getEmail());
 
@@ -106,11 +110,22 @@ public class UserService {
         user.setCreated(LocalDateTime.now());
         user.setUpdated(LocalDateTime.now());
 
-        user.setTypeUser(new TypeUser(3, Type.FREE));
+        TypeUser typeUser = this.validateTypeUser(type);
+        user.setTypeUser(typeUser);
 
         user = this.userRepository.save(user);
 
         return user;
+    }
+
+    private TypeUser validateTypeUser(Type type) {
+        Optional<TypeUser> typeUser = this.typeUserRepository.findByType(type);
+
+        if(!typeUser.isPresent()) {
+            throw new NotFoundException("El tipo de usuario no existe.");
+        }
+
+        return typeUser.get();
     }
 
     private void validateEmail(String email) {
@@ -138,7 +153,7 @@ public class UserService {
     }
 
     @Transactional
-    public User putAscendUser(Integer id) {
+    public User putTypeUser(Integer id, Type type) {
         Optional<User> uOptional = this.userRepository.findById(id);
 
         if(!uOptional.isPresent()) {
@@ -146,7 +161,8 @@ public class UserService {
         }
 
         User user = uOptional.get();
-        user.setTypeUser(new TypeUser(1, Type.ADMIN));
+        TypeUser typeUser = this.validateTypeUser(type);
+        user.setTypeUser(typeUser);
         user.setUpdated(LocalDateTime.now());
 
         user = this.userRepository.save(user);

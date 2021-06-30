@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import nubes.booktify.model.Jwt;
 import nubes.booktify.model.User;
 import nubes.booktify.model.request.LoginRequest;
+import nubes.booktify.model.request.UpdateTypeUserRequest;
 import nubes.booktify.model.request.UserRequest;
 import nubes.booktify.service.UserService;
+import nubes.booktify.model.Type;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -58,19 +60,27 @@ public class UserRest {
         return ResponseEntity.ok().body(user);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/users/{id}/ascend")
-    public ResponseEntity<User> putAscendUser(@PathVariable Integer id) {
-        User user = this.userService.putAscendUser(id);
-
-        return ResponseEntity.ok().body(user);
-    }
-
-    @PostMapping("/users")
+    @PostMapping("/register/users")
     public ResponseEntity<User> postUser(@RequestBody @Valid UserRequest userRequest) {
-        User user = this.userService.postUser(userRequest);
+        User user = this.userService.postUser(userRequest, Type.FREE);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/register/admins")
+    public ResponseEntity<User> postAdmin(@RequestBody @Valid UserRequest userRequest) {
+        User user = this.userService.postUser(userRequest, Type.ADMIN);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+        
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/users/{id}/roles")
+    public ResponseEntity<User> putRole(@PathVariable Integer id, @RequestBody @Valid UpdateTypeUserRequest updateType) {
+        User user = this.userService.putTypeUser(id, updateType.getType());
+
+        return ResponseEntity.ok().body(user);
     }
 
     @PutMapping("/users/{id}")
