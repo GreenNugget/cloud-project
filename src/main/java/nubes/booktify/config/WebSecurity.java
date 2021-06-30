@@ -27,7 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .httpBasic().disable()
             .authorizeRequests()
                 .antMatchers("/api/v1/auth/login").permitAll() //access to login
-                .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll() //access to sign up
+                .antMatchers(HttpMethod.POST, "/api/v1/register/users").permitAll() //access to sign up
                 .anyRequest().authenticated()
             .and()
             .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
