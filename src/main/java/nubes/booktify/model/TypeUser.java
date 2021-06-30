@@ -14,25 +14,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class TypeUser {
     @Id
     @JsonIgnore
-    private Integer type_user_id;
+    @Column(name = "type_user_id")
+    private Integer typeUserId;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    public TypeUser(Integer id, Type type) {
-        this.type_user_id = id;
-        this.type = type;
-    }
-
     public TypeUser() {}
 
     public Integer getId() {
-        return type_user_id;
+        return typeUserId;
     }
 
-    public void setId(Integer type_user_id) {
-        this.type_user_id = type_user_id;
+    public void setId(Integer typeUserId) {
+        this.typeUserId = typeUserId;
     }
 
     public Type getType() {
