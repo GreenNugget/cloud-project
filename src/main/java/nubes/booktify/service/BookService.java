@@ -1,4 +1,5 @@
 package nubes.booktify.service;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,14 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nubes.booktify.model.Book;
+import nubes.booktify.model.article.BookIndex;
 import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.model.request.UpdateBookRequest;
 import nubes.booktify.repository.BookRepository;
+import nubes.booktify.repository.Elasticsearch.BookIndexRepository;
 
 @Service
 public class BookService {
 
-    @Autowired BookRepository bookRepository;
+    @Autowired 
+    BookRepository bookRepository;
+
+    @Autowired
+    BookIndexRepository bookIndexRepository;
 
     public List<Book> getBooks(){
         List<Book> books = new LinkedList<>();
@@ -59,7 +66,24 @@ public class BookService {
         book.setCover(bookReq.getCover());
         book = bookRepository.save(book);
 
+        this.indexarLibro(bookReq);
+
         return book;
+    }
+
+    @Transactional
+    private void indexarLibro(CreateBookRequest bookRequest) {
+        BookIndex bookIndex = new BookIndex();
+
+        bookIndex.setAuthor(bookRequest.getAuthor());
+        bookIndex.setContent(bookRequest.getContent());
+        bookIndex.setLanguage(bookRequest.getLanguage());
+        bookIndex.setPages(bookRequest.getPages());
+        bookIndex.setPublisher(bookRequest.getPublisher());
+        bookIndex.setPublisherDate(LocalDateTime.now()); //cambiar la entidad libro para que sea Date y no String
+        bookIndex.setTitle(bookIndex.getTitle());
+
+        this.bookIndexRepository.save(bookIndex);
     }
     
     @Transactional
