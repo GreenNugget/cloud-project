@@ -1,9 +1,9 @@
-package nubes.booktify.repository.Elasticsearch;
+package nubes.booktify.repository.elasticsearch;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import nubes.booktify.model.article.BookIndex;
+import nubes.booktify.model.document.BookIndex;
 
-public interface BookIndexRepository extends ElasticsearchRepository<BookIndex, Integer>{
+public interface BookIndexRepository extends ElasticsearchRepository<BookIndex, String>{
     
 }

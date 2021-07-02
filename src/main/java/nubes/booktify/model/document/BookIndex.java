@@ -1,6 +1,4 @@
-package nubes.booktify.model.article;
-
-import java.time.LocalDateTime;
+package nubes.booktify.model.document;
 
 import javax.persistence.Id;
 
@@ -12,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class BookIndex {
     
     @Id
-    private Integer id;
+    private String id;
 
     @Field(type = FieldType.Keyword)
     private String title;
@@ -26,20 +24,17 @@ public class BookIndex {
     @Field(type = FieldType.Keyword)
     private String publisher;
 
-    @Field(type = FieldType.Date)
-    private LocalDateTime publisherDate;
-
     @Field(type = FieldType.Long)
     private Integer pages;
 
     @Field(type = FieldType.Keyword)
     private String language;
 
-    public Integer getId() {
-        return id;
+    public String getId() {
+        return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -73,14 +68,6 @@ public class BookIndex {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-    }
-
-    public LocalDateTime getPublisherDate() {
-        return publisherDate;
-    }
-
-    public void setPublisherDate(LocalDateTime publisherDate) {
-        this.publisherDate = publisherDate;
     }
 
     public Integer getPages() {
