@@ -1,6 +1,7 @@
 package nubes.booktify.service;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -42,40 +43,36 @@ public class BookService {
         return books;
     }
 
+    public List<Book> getAllBookFromElastic(List<BookIndex> indexs) {
+        List<Book> listaLibros = new LinkedList<>();
+
+        this.bookRepository.findAllById(
+            indexs.stream().map(BookIndex::getId)
+            .collect(Collectors.toList())
+        ).iterator()
+        .forEachRemaining(listaLibros::add);
+
+        return listaLibros;
+    }
+
     public List<Book> searchBookById(Integer id) {
         return bookRepository.findByBookId(id);
     }
-
-    /*
-    public List<Book> searchBook(String title,String author, String date) {
-        List<Book> foundBooks = new LinkedList<>();
-
-        bookRepository.findByTitle(title).iterator().forEachRemaining(foundBooks::add);
-        bookRepository.findByAuthor(author).iterator().forEachRemaining(foundBooks::add);
-        bookRepository.findByPublisherDate(date).iterator().forEachRemaining(foundBooks::add);
-
-        List<Book> noRepeat = foundBooks.stream().distinct().collect(Collectors.toList());
-
-        return noRepeat;
-    }*/
     
-    public List<BookIndex> searchBook(String query) {
+    public List<Book> searchBook(String query) {
         QueryBuilder queryBuilder = 
         (QueryBuilder) QueryBuilders.queryStringQuery(query);
     
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(queryBuilder).build();
 
-        SearchHits<BookIndex> producHits =
+        SearchHits<BookIndex> bookHits =
         elasticsearchOperations
         .search(searchQuery, BookIndex.class, IndexCoordinates.of("biblioteca"));
 
-        List<BookIndex> lista = new LinkedList<>();
-        for (SearchHit<BookIndex> searchHit : producHits) {
-            lista.add(searchHit.getContent());
-        }
+        List<BookIndex> listaIndexs = bookHits.get().map(SearchHit::getContent).collect(Collectors.toList());
 
-        return lista;
+        return this.getAllBookFromElastic(listaIndexs);
     }
     
     @Transactional
@@ -104,6 +101,7 @@ public class BookService {
     private void indexarLibro(Book book) {
         BookIndex bookIndex = new BookIndex();
 
+        bookIndex.setId(book.getBookId());
         bookIndex.setAuthor(book.getAuthor());
         bookIndex.setContent(book.getContent());
         bookIndex.setLanguage(book.getLanguage());

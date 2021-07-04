@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import nubes.booktify.model.Book;
-import nubes.booktify.model.document.BookIndex;
 import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.model.request.UpdateBookRequest;
 import nubes.booktify.service.BookService;
@@ -42,9 +41,9 @@ public class BookRest {
         return ResponseEntity.ok().body(bookService.searchBookById(bookId));
     }
 
-    @GetMapping("/libros/busqueda/completa") //Search by title, author and date
-    public ResponseEntity< List<BookIndex> > buscarCoincidencia(@RequestParam("q") String query) {
-        List<BookIndex> listaLibros = this.bookService.searchBook(query);
+    @GetMapping("/libros/busqueda/completa") //Search by word or sentence
+    public ResponseEntity< List<Book> > buscarCoincidencia(@RequestParam("q") String query) {
+        List<Book> listaLibros = this.bookService.searchBook(query);
 
         return ResponseEntity.ok().body(listaLibros);
     }
