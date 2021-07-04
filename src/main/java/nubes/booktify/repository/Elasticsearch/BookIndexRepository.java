@@ -4,6 +4,6 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 import nubes.booktify.model.document.BookIndex;
 
-public interface BookIndexRepository extends ElasticsearchRepository<BookIndex, String>{
+public interface BookIndexRepository extends ElasticsearchRepository<BookIndex, Integer>{
     
 }

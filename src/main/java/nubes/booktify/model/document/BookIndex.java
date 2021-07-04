@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class BookIndex {
     
     @Id
-    private String id;
+    private Integer id;
 
     @Field(type = FieldType.Keyword)
     private String title;
@@ -30,11 +30,11 @@ public class BookIndex {
     @Field(type = FieldType.Keyword)
     private String language;
 
-    public String getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
