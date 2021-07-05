@@ -1,5 +1,6 @@
 package nubes.booktify.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,9 @@ public class UserService {
     @Autowired
     TypeUserRepository typeUserRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public User getUserById(Integer id) {
         Optional<User> user = this.userRepository.findById(id);
 
@@ -65,7 +69,7 @@ public class UserService {
     }
 
     @Transactional
-    public Jwt loginUser(LoginRequest loginRequest) {
+    public Jwt loginUser(LoginRequest loginRequest,String userAgent) {
         User loggedUser = this.getUserByEmail(loginRequest.getEmail());
 
         if(loggedUser == null || loggedUser.equals(null)) {
@@ -83,6 +87,12 @@ public class UserService {
         loggedUser.setToken(token);
 
         this.userRepository.save(loggedUser);
+
+        try {
+            emailService.loginAlert(loginRequest.getEmail(), userAgent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return new Jwt(token);
     }
@@ -113,6 +123,12 @@ public class UserService {
         TypeUser typeUser = this.validateTypeUser(type);
         user.setTypeUser(typeUser);
 
+        try {
+            emailService.WelcomeEmail(user.getEmail(), user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         user = this.userRepository.save(user);
 
         return user;
@@ -137,15 +153,18 @@ public class UserService {
     }
 
     @Transactional
-    public User putUserById(Integer id, UserRequest userRequest) {
+    public User putUserById(Integer id, UserRequest userRequest) throws IOException {
         User user = this.getUserById(id);
 
         String pwdHash = BCrypt.hashpw(userRequest.getPassword(), BCrypt.gensalt());
         user.setPassword(pwdHash);
 
+        emailService.editAlert(user.getEmail(), user, userRequest);
+
         user.setFullname(userRequest.getFullname());
         user.setLastname(userRequest.getLastname());
         user.setUpdated(LocalDateTime.now());
+        user.setEmail(userRequest.getEmail());
 
         user = this.userRepository.save(user);
 
@@ -153,7 +172,7 @@ public class UserService {
     }
 
     @Transactional
-    public User putTypeUser(Integer id, Type type) {
+    public User putTypeUser(Integer id, Type type) throws IOException {
         Optional<User> uOptional = this.userRepository.findById(id);
 
         if(!uOptional.isPresent()) {
@@ -165,13 +184,15 @@ public class UserService {
         user.setTypeUser(typeUser);
         user.setUpdated(LocalDateTime.now());
 
+        emailService.changeUserTypeAlert(user.getEmail(), typeUser);
+
         user = this.userRepository.save(user);
 
         return user;
     }
 
     @Transactional
-    public void deleteUserById(Integer id) {
+    public void deleteUserById(Integer id) throws IOException {
         User user = this.getUserById(id);
 
         List<ReadList> readlists = this.readListRepository.findByUserId(id);
@@ -186,6 +207,7 @@ public class UserService {
             this.ratingRepository.deleteAll(ratings.get());
         }
 
+        emailService.deletedUserAlert(user.getEmail(), user);
         this.userRepository.delete(user);
     }
 }
