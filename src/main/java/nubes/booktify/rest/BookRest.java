@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import nubes.booktify.model.Book;
-import nubes.booktify.model.BookOpenLibra;
 import nubes.booktify.model.document.BookIndex;
 import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.model.request.UpdateBookRequest;
@@ -33,27 +32,26 @@ public class BookRest {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/libros") //All books
+    @GetMapping("/libros") // All books
     public ResponseEntity<List<Book>> getLibros() {
         return ResponseEntity.ok().body(bookService.getBooks());
     }
 
-    @GetMapping("/libros/{id}") //Search by id
+    @GetMapping("/libros/{id}") // Search by id
     public ResponseEntity<List<Book>> buscarPorId(@RequestParam("id") Integer bookId) {
         return ResponseEntity.ok().body(bookService.searchBookById(bookId));
     }
 
-    @GetMapping("/libros/busqueda/completa") //Search by title, author and date
-    public ResponseEntity< List<BookIndex> > buscarCoincidencia(@RequestParam("q") String query) {
+    @GetMapping("/libros/busqueda/completa") // Search by title, author and date
+    public ResponseEntity<List<BookIndex>> buscarCoincidencia(@RequestParam("q") String query) {
         List<BookIndex> listaLibros = this.bookService.searchBook(query);
 
         return ResponseEntity.ok().body(listaLibros);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/libros") //Create new book
-    public ResponseEntity<Book> crearLibro(@RequestBody @Valid CreateBookRequest request)
-            throws URISyntaxException {
+    @PostMapping("/libros") // Create new book
+    public ResponseEntity<Book> crearLibro(@RequestBody @Valid CreateBookRequest request) throws URISyntaxException {
 
         Book book = bookService.createBook(request);
 
@@ -61,21 +59,16 @@ public class BookRest {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/libros/{id}") //Update a book
+    @PutMapping("/libros/{id}") // Update a book
     public ResponseEntity<Book> editarPorfesor(@PathVariable("id") Integer bookId,
             @RequestBody UpdateBookRequest bookReq) {
         return ResponseEntity.ok().body(bookService.updateBook(bookId, bookReq));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/libros/{id}") //Delete book
+    @DeleteMapping("/libros/{id}") // Delete book
     public ResponseEntity<Book> eliminarLibro(@PathVariable("id") Integer bookId) {
         return ResponseEntity.ok().body(bookService.deleteBook(bookId));
     }
 
-    @GetMapping("/openlibra/libros")
-    public ResponseEntity<BookOpenLibra[]> getLibrosOpenLibra(){
-        BookOpenLibra[] books =  bookService.getLibrosOpenLibra();
-        return ResponseEntity.ok().body(books);
-    }
 }

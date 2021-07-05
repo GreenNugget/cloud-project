@@ -1,4 +1,5 @@
 package nubes.booktify.service;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,12 +14,11 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import nubes.booktify.model.Book;
-import nubes.booktify.model.BookOpenLibra;
+
 import nubes.booktify.model.document.BookIndex;
 import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.model.request.UpdateBookRequest;
@@ -37,10 +37,7 @@ public class BookService {
     @Autowired
     ElasticsearchOperations elasticsearchOperations;
 
-    @Autowired
-    RestTemplate restTemplate = new RestTemplate();
-
-    public List<Book> getBooks(){
+    public List<Book> getBooks() {
         List<Book> books = new LinkedList<>();
 
         bookRepository.findAll().iterator().forEachRemaining(books::add);
@@ -53,28 +50,28 @@ public class BookService {
     }
 
     /*
-    public List<Book> searchBook(String title,String author, String date) {
-        List<Book> foundBooks = new LinkedList<>();
-
-        bookRepository.findByTitle(title).iterator().forEachRemaining(foundBooks::add);
-        bookRepository.findByAuthor(author).iterator().forEachRemaining(foundBooks::add);
-        bookRepository.findByPublisherDate(date).iterator().forEachRemaining(foundBooks::add);
-
-        List<Book> noRepeat = foundBooks.stream().distinct().collect(Collectors.toList());
-
-        return noRepeat;
-    }*/
+     * public List<Book> searchBook(String title,String author, String date) {
+     * List<Book> foundBooks = new LinkedList<>();
+     *
+     * bookRepository.findByTitle(title).iterator().forEachRemaining(foundBooks::add
+     * );
+     * bookRepository.findByAuthor(author).iterator().forEachRemaining(foundBooks::
+     * add); bookRepository.findByPublisherDate(date).iterator().forEachRemaining(
+     * foundBooks::add);
+     *
+     * List<Book> noRepeat =
+     * foundBooks.stream().distinct().collect(Collectors.toList());
+     *
+     * return noRepeat; }
+     */
 
     public List<BookIndex> searchBook(String query) {
-        QueryBuilder queryBuilder =
-        (QueryBuilder) QueryBuilders.queryStringQuery(query);
+        QueryBuilder queryBuilder = (QueryBuilder) QueryBuilders.queryStringQuery(query);
 
-        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withQuery(queryBuilder).build();
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
-        SearchHits<BookIndex> producHits =
-        elasticsearchOperations
-        .search(searchQuery, BookIndex.class, IndexCoordinates.of("biblioteca"));
+        SearchHits<BookIndex> producHits = elasticsearchOperations.search(searchQuery, BookIndex.class,
+                IndexCoordinates.of("biblioteca"));
 
         List<BookIndex> lista = new LinkedList<>();
         for (SearchHit<BookIndex> searchHit : producHits) {
@@ -85,7 +82,7 @@ public class BookService {
     }
 
     @Transactional
-    public Book createBook(CreateBookRequest bookReq){
+    public Book createBook(CreateBookRequest bookReq) {
         Book book = new Book();
 
         book.setTitle(bookReq.getTitle());
@@ -121,16 +118,17 @@ public class BookService {
     }
 
     @Transactional
-    public Book deleteBook(Integer bookId){
+    public Book deleteBook(Integer bookId) {
         Book deletedBook = bookRepository.findByBookId(bookId).get(0);
 
-        bookRepository.deleteById(deletedBook.getBookId());;
+        bookRepository.deleteById(deletedBook.getBookId());
+        ;
         return deletedBook;
     }
 
     @Transactional
-    public Book updateBook(Integer bookId, UpdateBookRequest updatedBook){
-        Book updBook = bookRepository.findByBookId(bookId).get(0);//findByTitle(title).get(0);
+    public Book updateBook(Integer bookId, UpdateBookRequest updatedBook) {
+        Book updBook = bookRepository.findByBookId(bookId).get(0);// findByTitle(title).get(0);
 
         Book bookReference = bookRepository.findByTitle(updBook.getTitle()).get(0);
         bookReference = setBookNewValues(bookReference, updatedBook);
@@ -144,11 +142,4 @@ public class BookService {
         return bookReference;
     }
 
-
-    public BookOpenLibra[] getLibrosOpenLibra(){
-        String url = "https://www.etnassoft.com/api/v1/get/?book_title=javascript";
-        ResponseEntity<BookOpenLibra[]> response = restTemplate.getForEntity(url, BookOpenLibra[].class);
-        System.out.println(response.getStatusCode());
-        return response.getBody();
-    }
 }

@@ -23,8 +23,6 @@ public class BookOpenLibra {
 
   private String language;
 
-  @JsonProperty("url_download")
-  private String urlDownload;
   private String cover;
   private String thumbnail;
 
@@ -101,14 +99,6 @@ public class BookOpenLibra {
 
   public void setLanguage(String language) {
     this.language = language;
-  }
-
-  public String getUrlDownload() {
-    return urlDownload;
-  }
-
-  public void setUrlDownload(String urlDownload) {
-    this.urlDownload = urlDownload;
   }
 
   public String getCover() {
