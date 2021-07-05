@@ -81,7 +81,7 @@ public class UserRest {
         
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/users/{id}/roles")
-    public ResponseEntity<User> putRole(@PathVariable Integer id, @RequestBody @Valid UpdateTypeUserRequest updateType) {
+    public ResponseEntity<User> putRole(@PathVariable Integer id, @RequestBody @Valid UpdateTypeUserRequest updateType) throws IOException {
         User user = this.userService.putTypeUser(id, updateType.getType());
 
         return ResponseEntity.ok().body(user);
@@ -95,7 +95,7 @@ public class UserRest {
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) throws IOException {
         this.userService.deleteUserById(id);
 
         return ResponseEntity.ok().build();

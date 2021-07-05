@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import nubes.booktify.model.TypeUser;
 import nubes.booktify.model.User;
 import nubes.booktify.model.request.UserRequest;
 
@@ -34,6 +35,16 @@ public class EmailService {
     public void loginAlert(String email, String userAgent) throws IOException {
         String mensaje = "Se ha iniciado sesión en el dispositivo " + userAgent;
         sendEMail(email, "Alerta de incio de sesión", mensaje);
+    }
+
+    public void changeUserTypeAlert(String email, TypeUser type) throws IOException{
+        String mensaje = "Se ha cambiado su tipo de usuario a: " + type.getType().toString();
+        sendEMail(email, "Cambio en tipo de usuario", mensaje);
+    }
+
+    public void deletedUserAlert(String email, User user) throws IOException{
+        String mensaje = "Se ha eliminado su cuenta asociada a " + user.getEmail() + " de la aplicación Booftify";
+        sendEMail(email, "Se ha eliminado su cuenta de Booktify", mensaje);
     }
 
     @Async
