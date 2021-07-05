@@ -28,7 +28,7 @@ public class EmailService {
     private String sendgridEmail;
 
     public void WelcomeEmail(String email, User user) throws IOException {
-        String mensaje = "Bienvenido a la aplicación Booktify, " + user.getEmail();
+        String mensaje = "Bienvenido a la aplicación Booktify, " + user.getFullname();
         sendEMail(email, "Registro de usuario", mensaje);
     }
 
@@ -47,7 +47,6 @@ public class EmailService {
         sendEMail(email, "Se ha eliminado su cuenta de Booktify", mensaje);
     }
 
-    @Async
     public void editAlert(String email, User user, UserRequest editedUser) throws IOException {
         String mensaje = "Se ha realizado un cambio en su cuenta " + user.getEmail() + "\nde"
                 + "\nNombre: " + user.getFullname() + "\nApellidos: " + user.getLastname() + "\nEmail: "
@@ -81,6 +80,7 @@ public class EmailService {
         }
     }
 
+    @Async
     private Mail prepareMail(String email, String subject, String mensaje) {
         Email from = new Email(sendgridEmail);
         Content content = new Content("text/plain", mensaje);

@@ -124,8 +124,7 @@ public class UserService {
         user.setTypeUser(typeUser);
 
         try {
-            emailService.sendEMail(userRequest.getEmail(), "Registro de usuario",
-                    "Bienvenido a Sicei App, " + userRequest.getEmail());
+            emailService.WelcomeEmail(user.getEmail(), user);
         } catch (IOException e) {
             e.printStackTrace();
         }
