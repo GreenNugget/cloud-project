@@ -13,9 +13,12 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import nubes.booktify.model.Book;
+import nubes.booktify.model.BookOpenLibra;
 import nubes.booktify.model.document.BookIndex;
 import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.model.request.UpdateBookRequest;
@@ -25,7 +28,7 @@ import nubes.booktify.repository.elasticsearch.BookIndexRepository;
 @Service
 public class BookService {
 
-    @Autowired 
+    @Autowired
     BookRepository bookRepository;
 
     @Autowired
@@ -33,6 +36,9 @@ public class BookService {
 
     @Autowired
     ElasticsearchOperations elasticsearchOperations;
+
+    @Autowired
+    RestTemplate restTemplate = new RestTemplate();
 
     public List<Book> getBooks(){
         List<Book> books = new LinkedList<>();
@@ -58,11 +64,11 @@ public class BookService {
 
         return noRepeat;
     }*/
-    
+
     public List<BookIndex> searchBook(String query) {
-        QueryBuilder queryBuilder = 
+        QueryBuilder queryBuilder =
         (QueryBuilder) QueryBuilders.queryStringQuery(query);
-    
+
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withQuery(queryBuilder).build();
 
@@ -77,7 +83,7 @@ public class BookService {
 
         return lista;
     }
-    
+
     @Transactional
     public Book createBook(CreateBookRequest bookReq){
         Book book = new Book();
@@ -113,7 +119,7 @@ public class BookService {
 
         this.bookIndexRepository.save(bookIndex);
     }
-    
+
     @Transactional
     public Book deleteBook(Integer bookId){
         Book deletedBook = bookRepository.findByBookId(bookId).get(0);
@@ -136,5 +142,13 @@ public class BookService {
         bookReference.setAuthor(updateRequest.getAuthor());
         bookReference.setContent(updateRequest.getContent());
         return bookReference;
+    }
+
+
+    public BookOpenLibra[] getLibrosOpenLibra(){
+        String url = "https://www.etnassoft.com/api/v1/get/?book_title=javascript";
+        ResponseEntity<BookOpenLibra[]> response = restTemplate.getForEntity(url, BookOpenLibra[].class);
+        System.out.println(response.getStatusCode());
+        return response.getBody();
     }
 }
