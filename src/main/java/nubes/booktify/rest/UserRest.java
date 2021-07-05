@@ -1,5 +1,7 @@
 package nubes.booktify.rest;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +34,9 @@ public class UserRest {
     private UserService userService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<Jwt> getJwt(@RequestBody @Valid LoginRequest loginRequest) {
-        Jwt jwt = this.userService.loginUser(loginRequest);
+    public ResponseEntity<Jwt> getJwt(@RequestHeader(value = "User-Agent") String userAgent,
+            @RequestBody @Valid LoginRequest loginRequest) {
+        Jwt jwt = this.userService.loginUser(loginRequest,userAgent);
 
         return ResponseEntity.ok().body(jwt);
     }
@@ -84,7 +88,7 @@ public class UserRest {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> putUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Integer id ) {
+    public ResponseEntity<User> putUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Integer id ) throws IOException {
         User user = this.userService.putUserById(id, userRequest);
         
         return ResponseEntity.ok().body(user);
