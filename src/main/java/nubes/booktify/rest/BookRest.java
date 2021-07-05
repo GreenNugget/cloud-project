@@ -48,6 +48,12 @@ public class BookRest {
         return ResponseEntity.ok().body(listaLibros);
     }
 
+    @GetMapping("/libros/busqueda/completa/filtro") //Search by word or sentence
+    public ResponseEntity< List<Book> > buscarCoincidenciaFiltrada(@RequestParam ("q") String query, @RequestParam ("f") String filter) {
+        List<Book> listaLibros = this.bookService.filteredSearchBook(query, filter);
+        return ResponseEntity.ok().body(listaLibros);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/libros") //Create new book
     public ResponseEntity<Book> crearLibro(@RequestBody @Valid CreateBookRequest request)
