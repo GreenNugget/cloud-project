@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ public class FileRest {
   @Autowired
   private FileStorageService fileStorageService;
 
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping("/uploadFile/{id}")
   public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file,
       @PathVariable Integer id) {
