@@ -1,4 +1,5 @@
 package nubes.booktify.service;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,9 +15,11 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+
 import org.springframework.stereotype.Service;
 
 import nubes.booktify.model.Book;
+
 import nubes.booktify.model.document.BookIndex;
 import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.model.request.UpdateBookRequest;
@@ -26,7 +29,7 @@ import nubes.booktify.repository.elasticsearch.BookIndexRepository;
 @Service
 public class BookService {
 
-    @Autowired 
+    @Autowired
     BookRepository bookRepository;
 
     @Autowired
@@ -35,7 +38,7 @@ public class BookService {
     @Autowired
     ElasticsearchOperations elasticsearchOperations;
 
-    public List<Book> getBooks(){
+    public List<Book> getBooks() {
         List<Book> books = new LinkedList<>();
 
         bookRepository.findAll().iterator().forEachRemaining(books::add);
@@ -74,9 +77,9 @@ public class BookService {
 
         return this.getAllBookFromElastic(listaIndexs);
     }
-    
+
     @Transactional
-    public Book createBook(CreateBookRequest bookReq){
+    public Book createBook(CreateBookRequest bookReq) {
         Book book = new Book();
 
         book.setTitle(bookReq.getTitle());
@@ -111,18 +114,19 @@ public class BookService {
 
         this.bookIndexRepository.save(bookIndex);
     }
-    
+
     @Transactional
-    public Book deleteBook(Integer bookId){
+    public Book deleteBook(Integer bookId) {
         Book deletedBook = bookRepository.findByBookId(bookId).get(0);
 
-        bookRepository.deleteById(deletedBook.getBookId());;
+        bookRepository.deleteById(deletedBook.getBookId());
+        ;
         return deletedBook;
     }
 
     @Transactional
-    public Book updateBook(Integer bookId, UpdateBookRequest updatedBook){
-        Book updBook = bookRepository.findByBookId(bookId).get(0);//findByTitle(title).get(0);
+    public Book updateBook(Integer bookId, UpdateBookRequest updatedBook) {
+        Book updBook = bookRepository.findByBookId(bookId).get(0);// findByTitle(title).get(0);
 
         Book bookReference = bookRepository.findByTitle(updBook.getTitle()).get(0);
         bookReference = setBookNewValues(bookReference, updatedBook);
@@ -135,4 +139,5 @@ public class BookService {
         bookReference.setContent(updateRequest.getContent());
         return bookReference;
     }
+
 }

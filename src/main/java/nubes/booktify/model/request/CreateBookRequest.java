@@ -49,6 +49,10 @@ public class CreateBookRequest {
         this.cover = cover;
     }
 
+    public CreateBookRequest(){
+
+    }
+
     public CreateBookRequest title(String title){
         this.title = title;
         return this;
@@ -62,7 +66,7 @@ public class CreateBookRequest {
     public CreateBookRequest pages(Integer pages) {
         this.pages = pages;
         return this;
-    }    
+    }
 
     /**
      * @return String return the title
