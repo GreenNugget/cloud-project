@@ -12,7 +12,7 @@ public class BookIndex {
     @Id
     private Integer id;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String title;
 
     @Field(type = FieldType.Keyword)

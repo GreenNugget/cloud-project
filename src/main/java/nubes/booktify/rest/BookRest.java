@@ -41,15 +41,15 @@ public class BookRest {
         return ResponseEntity.ok().body(bookService.searchBookById(bookId));
     }
 
-    @GetMapping("/libros/busqueda/completa") //Search by word or sentence
+    @GetMapping("/libros/busqueda") //Search by word or sentence
     public ResponseEntity< List<Book> > buscarCoincidencia(@RequestParam("q") String query) {
         List<Book> listaLibros = this.bookService.searchBook(query);
 
         return ResponseEntity.ok().body(listaLibros);
     }
 
-    @GetMapping("/libros/busqueda/completa/filtro") //Search by word or sentence
-    public ResponseEntity< List<Book> > buscarCoincidenciaFiltrada(@RequestParam ("q") String query, @RequestParam ("f") String filter) {
+    @GetMapping("/libros/busqueda/filtro") //Search by word or sentence
+    public ResponseEntity< List<Book> > buscarCoincidenciaFiltrada(@RequestParam ("q") String query, @RequestParam ("l") String filter) {
         List<Book> listaLibros = this.bookService.filteredSearchBook(query, filter);
         return ResponseEntity.ok().body(listaLibros);
     }
