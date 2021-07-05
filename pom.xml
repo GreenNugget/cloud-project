@@ -74,6 +74,13 @@
 			<artifactId>sendgrid-java</artifactId>
 			<version>4.7.2</version>
 		</dependency>
+		
+		<!-- Dependencia de Elasticsearch -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-elasticsearch</artifactId>
+			<version>4.0.0.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -41,9 +41,11 @@ public class BookRest {
         return ResponseEntity.ok().body(bookService.searchBookById(bookId));
     }
 
-    @GetMapping("/libros/busqueda/completa") //Search by title, author and date
-    public ResponseEntity<List<Book>> buscarLibro(@RequestParam("title") String title,@RequestParam("author") String author, @RequestParam("publisherDate") String date) {
-        return ResponseEntity.ok().body(bookService.searchBook(title, author, date));
+    @GetMapping("/libros/busqueda/completa") //Search by word or sentence
+    public ResponseEntity< List<Book> > buscarCoincidencia(@RequestParam("q") String query) {
+        List<Book> listaLibros = this.bookService.searchBook(query);
+
+        return ResponseEntity.ok().body(listaLibros);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

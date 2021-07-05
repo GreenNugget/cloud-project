@@ -5,18 +5,35 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
 import nubes.booktify.model.Book;
+import nubes.booktify.model.document.BookIndex;
 import nubes.booktify.model.request.CreateBookRequest;
 import nubes.booktify.model.request.UpdateBookRequest;
 import nubes.booktify.repository.BookRepository;
+import nubes.booktify.repository.elasticsearch.BookIndexRepository;
 
 @Service
 public class BookService {
 
-    @Autowired BookRepository bookRepository;
+    @Autowired 
+    BookRepository bookRepository;
+
+    @Autowired
+    BookIndexRepository bookIndexRepository;
+
+    @Autowired
+    ElasticsearchOperations elasticsearchOperations;
 
     public List<Book> getBooks(){
         List<Book> books = new LinkedList<>();
@@ -26,20 +43,36 @@ public class BookService {
         return books;
     }
 
+    public List<Book> getAllBookFromElastic(List<BookIndex> indexs) {
+        List<Book> listaLibros = new LinkedList<>();
+
+        this.bookRepository.findAllById(
+            indexs.stream().map(BookIndex::getId)
+            .collect(Collectors.toList())
+        ).iterator()
+        .forEachRemaining(listaLibros::add);
+
+        return listaLibros;
+    }
+
     public List<Book> searchBookById(Integer id) {
         return bookRepository.findByBookId(id);
     }
+    
+    public List<Book> searchBook(String query) {
+        QueryBuilder queryBuilder = 
+        (QueryBuilder) QueryBuilders.queryStringQuery(query);
+    
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withQuery(queryBuilder).build();
 
-    public List<Book> searchBook(String title,String author, String date) {
-        List<Book> foundBooks = new LinkedList<>();
+        SearchHits<BookIndex> bookHits =
+        elasticsearchOperations
+        .search(searchQuery, BookIndex.class, IndexCoordinates.of("biblioteca"));
 
-        bookRepository.findByTitle(title).iterator().forEachRemaining(foundBooks::add);
-        bookRepository.findByAuthor(author).iterator().forEachRemaining(foundBooks::add);
-        bookRepository.findByPublisherDate(date).iterator().forEachRemaining(foundBooks::add);
+        List<BookIndex> listaIndexs = bookHits.get().map(SearchHit::getContent).collect(Collectors.toList());
 
-        List<Book> noRepeat = foundBooks.stream().distinct().collect(Collectors.toList());
-
-        return noRepeat;
+        return this.getAllBookFromElastic(listaIndexs);
     }
     
     @Transactional
@@ -59,7 +92,24 @@ public class BookService {
         book.setCover(bookReq.getCover());
         book = bookRepository.save(book);
 
+        this.indexarLibro(book);
+
         return book;
+    }
+
+    @Transactional
+    private void indexarLibro(Book book) {
+        BookIndex bookIndex = new BookIndex();
+
+        bookIndex.setId(book.getBookId());
+        bookIndex.setAuthor(book.getAuthor());
+        bookIndex.setContent(book.getContent());
+        bookIndex.setLanguage(book.getLanguage());
+        bookIndex.setPages(book.getPages());
+        bookIndex.setPublisher(book.getPublisher());
+        bookIndex.setTitle(book.getTitle());
+
+        this.bookIndexRepository.save(bookIndex);
     }
     
     @Transactional
