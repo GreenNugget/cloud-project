@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -78,6 +80,23 @@ public class BookService {
         return this.getAllBookFromElastic(listaIndexs);
     }
 
+    public List<Book> filteredSearchBook(String query, String filter) {
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
+        .must(QueryBuilders.queryStringQuery(query))
+        .filter(QueryBuilders.simpleQueryStringQuery(filter).field("language"));
+    
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+        .withQuery(boolQuery).build();
+
+        SearchHits<BookIndex> bookHits =
+        elasticsearchOperations
+        .search(searchQuery, BookIndex.class, IndexCoordinates.of("biblioteca"));
+
+        List<BookIndex> listaIndexs = bookHits.get().map(SearchHit::getContent).collect(Collectors.toList());
+
+        return this.getAllBookFromElastic(listaIndexs);
+    }
+    
     @Transactional
     public Book createBook(CreateBookRequest bookReq) {
         Book book = new Book();
