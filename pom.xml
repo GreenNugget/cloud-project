@@ -68,6 +68,13 @@
 			<version>0.9.1</version>
 		</dependency>
 
+		<!-- Dependencia para enviar correos -->
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.7.2</version>
+		</dependency>
+		
 		<!-- Dependencia de Elasticsearch -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>

@@ -1,5 +1,7 @@
 package nubes.booktify.rest;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +34,9 @@ public class UserRest {
     private UserService userService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<Jwt> getJwt(@RequestBody @Valid LoginRequest loginRequest) {
-        Jwt jwt = this.userService.loginUser(loginRequest);
+    public ResponseEntity<Jwt> getJwt(@RequestHeader(value = "User-Agent") String userAgent,
+            @RequestBody @Valid LoginRequest loginRequest) {
+        Jwt jwt = this.userService.loginUser(loginRequest,userAgent);
 
         return ResponseEntity.ok().body(jwt);
     }
@@ -77,21 +81,21 @@ public class UserRest {
         
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/users/{id}/roles")
-    public ResponseEntity<User> putRole(@PathVariable Integer id, @RequestBody @Valid UpdateTypeUserRequest updateType) {
+    public ResponseEntity<User> putRole(@PathVariable Integer id, @RequestBody @Valid UpdateTypeUserRequest updateType) throws IOException {
         User user = this.userService.putTypeUser(id, updateType.getType());
 
         return ResponseEntity.ok().body(user);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> putUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Integer id ) {
+    public ResponseEntity<User> putUser(@RequestBody @Valid UserRequest userRequest, @PathVariable Integer id ) throws IOException {
         User user = this.userService.putUserById(id, userRequest);
         
         return ResponseEntity.ok().body(user);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) throws IOException {
         this.userService.deleteUserById(id);
 
         return ResponseEntity.ok().build();
